@@ -117,7 +117,6 @@ Records identified through the database searches will be imported into Rayyan, a
 1. *Test–retest check:* after a 1–2 week break, a random 10–20% of titles/abstracts will be re-screened blind to the first decision, and agreement between the two passes will be reported.
 2. *Second look at exclusions:* every full-text exclusion will be re-read a second time before the dataset is frozen.
 3. Reasons for exclusion at full-text review will be documented and summarized in a PRISMA 2020 flow diagram.
-
 ### Language restrictions:
 No language restrictions will be applied. Studies published in English and French will be assessed directly. Studies published in other languages will be considered where a reliable translation is available.
 ### Limitations:
@@ -184,7 +183,7 @@ Assessed qualitatively, by comparing baseline characteristics and trial-design f
 - **Geographic region / enrollment distribution**: BELINDA enrolled heavily in Asia and Australia, unlike ZUMA-7 and TRANSFORM; regional differences in salvage regimen practice and supportive care are a recognised effect modifier.
 - **Proportion primary refractory vs early relapse**: these subgroups have materially different prognosis, and an imbalanced mix across trials biases indirect comparisons.
 - **Time from diagnosis to CAR-T infusion**: a measure of how well the trial reflects real-world turnaround; longer intervals disadvantage CAR-T arms.
-- Trial-design features: bridging-therapy policy, crossover provisions, response-adjudication method (IRC vs investigator).
+- **Trial-design features:** bridging-therapy policy, crossover provisions, response-adjudication method (IRC vs investigator).
 - **Comparator-arm check:** salvage regimens used, proportion of the SOC arm reaching ASCT, and the raw CRR/ORR/OS of each SOC arm. This is the single best empirical test of the comparator-node assumption: if the three SOC arms' raw outcomes look very different (for example, BELINDA's SOC CRR is conspicuously lower than ZUMA-7's), that is direct evidence that the common comparator is not behaving like one treatment, and the indirect comparisons must be interpreted accordingly.
 
 **Outcome-definition transitivity:** Transitivity is assessed per outcome, not only per population.

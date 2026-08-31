@@ -1,1 +1,5 @@
 trial_id,arm,treatment,outcome,events,n,denominator_type,assessor,timepoint_note,source
+ZUMA-7,car_t,Axi-cel,crr,117,180,randomized,Investigator,best response,Locke 2022 NEJM Table 2
+ZUMA-7,soc,Standard of care,crr,57,179,randomized,Investigator,best response,Locke 2022 NEJM Table 2
+ZUMA-7,car_t,Axi-cel,orr,149,180,randomized,Investigator,best response,Locke 2022 NEJM Table 2
+ZUMA-7,soc,Standard of care,orr,90,179,randomized,Investigator,best response,Locke 2022 NEJM Table 2

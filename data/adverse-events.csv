@@ -1,1 +1,6 @@
 trial_id,arm,treatment,outcome,events,n_safety,grading_system,source,notes
+ZUMA-7,car_t,Axi-cel,crs_any,157,170,Modified Lee 2014,Locke 2022 NEJM Supp,NA
+ZUMA-7,car_t,Axi-cel,crs_g3plus,14,170,Modified Lee 2014,Locke 2022 NEJM Supp,NA
+ZUMA-7,car_t,Axi-cel,icans_any,101,170,CTCAE v4.03,Locke 2022 NEJM Supp,NA
+ZUMA-7,car_t,Axi-cel,icans_g3plus,25,170,CTCAE v4.03,Locke 2022 NEJM Supp,NA
+ZUMA-7,soc,Standard of care,teae,165,168,CTCAE v4.03,Locke 2022 NEJM Supp,NA
