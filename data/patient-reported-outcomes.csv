@@ -1,0 +1,10 @@
+trial_id,arm,instrument,timepoint,measure_type,value,sd_or_se,n,source,notes
+ZUMA-7,axi_cel,EORTC QLQ-C30 global health status/QoL,day 100,mean_change,18.1,NA,165,ZUMA-7 PRO publication,Between-arm difference in mean change from baseline (axi-cel vs SOC); 95% CI 12.3-23.9; P < 0.0001
+ZUMA-7,axi_cel,EORTC QLQ-C30 physical functioning,day 100,mean_change,13.1,NA,165,ZUMA-7 PRO publication,Between-arm difference in mean change from baseline (axi-cel vs SOC); 95% CI 8.0-18.2; P < 0.0001
+ZUMA-7,axi_cel,EQ-5D-5L VAS,day 100,mean_change,13.7,NA,165,ZUMA-7 PRO publication,Between-arm difference in mean change from baseline (axi-cel vs SOC); 95% CI 8.5-18.8; P < 0.0001
+ZUMA-7,axi_cel,EORTC QLQ-C30 global health status/QoL,day 150,mean_change,9.8,NA,165,ZUMA-7 PRO publication,Between-arm difference in mean change from baseline (axi-cel vs SOC); 95% CI 2.6-17.0; P = 0.0124
+ZUMA-7,axi_cel,EQ-5D-5L VAS,day 150,mean_change,11.3,NA,165,ZUMA-7 PRO publication,Between-arm difference in mean change from baseline (axi-cel vs SOC); 95% CI 5.4-17.1; P = 0.0004
+ZUMA-7,axi_cel,EQ-5D-5L index,day 100,mean_change,0.081,NA,165,ZUMA-7 PRO publication,Between-arm difference in mean change from baseline (axi-cel vs SOC); US value set; 95% CI 0.024-0.138; P = 0.0112
+TRANSFORM,liso_cel,EORTC QLQ-C30,time-to-deterioration,global_health_status_QoL_HR,0.47,NA,47,Abramson 2022 Blood Advances,HR 0.47 (95% CI 0.24-0.94) vs SOC; median NR vs 19.0 weeks; PRO-evaluable population: 47 liso-cel and 43 SOC
+TRANSFORM,liso_cel,EORTC QLQ-C30,month_6,fatigue_MMRM_between_arm_difference,-5.7,NA,47,Abramson 2022 Blood Advances,MMRM between-arm difference at month 6; negative value favors liso-cel
+TRANSFORM,liso_cel,EORTC QLQ-C30,through_month_36,cognitive_functioning_MMRM_between_arm_difference,4.3,NA,47,Abramson 2022 Blood Advances,MMRM between-arm difference through month 36

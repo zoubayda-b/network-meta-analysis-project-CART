@@ -1,6 +1,21 @@
 trial_id,arm,treatment,outcome,events,n_safety,grading_system,source,notes
-ZUMA-7,car_t,Axi-cel,crs_any,157,170,Modified Lee 2014,Locke 2022 NEJM Supp,NA
-ZUMA-7,car_t,Axi-cel,crs_g3plus,14,170,Modified Lee 2014,Locke 2022 NEJM Supp,NA
-ZUMA-7,car_t,Axi-cel,icans_any,101,170,CTCAE v4.03,Locke 2022 NEJM Supp,NA
-ZUMA-7,car_t,Axi-cel,icans_g3plus,25,170,CTCAE v4.03,Locke 2022 NEJM Supp,NA
-ZUMA-7,soc,Standard of care,teae,165,168,CTCAE v4.03,Locke 2022 NEJM Supp,NA
+ZUMA-7,car_t,Axi-cel,crs_any,157,170,Modified Lee 2014,Locke 2022 NEJM Supplement,92%; no grade 5 CRS
+ZUMA-7,car_t,Axi-cel,crs_g3plus,11,170,Modified Lee 2014,Locke 2022 NEJM Supplement,6%; no grade 5 CRS
+ZUMA-7,car_t,Axi-cel,icans_any,102,170,CTCAE v4.03,Locke 2022 NEJM Supplement,60%; treatment-emergent neurologic events
+ZUMA-7,car_t,Axi-cel,icans_g3plus,36,170,CTCAE v4.03,Locke 2022 NEJM Supplement,21%; treatment-emergent neurologic events
+ZUMA-7,soc,Standard care,icans_any,33,168,CTCAE v4.03,Locke 2022 NEJM Supplement,20%; treatment-emergent neurologic events
+ZUMA-7,soc,Standard care,icans_g3plus,1,168,CTCAE v4.03,Locke 2022 NEJM Supplement,1%; treatment-emergent neurologic events
+ZUMA-7,car_t,Axi-cel,teae,170,170,CTCAE v4.03,Locke 2022 NEJM Supplement,100%
+ZUMA-7,soc,Standard care,teae,168,168,CTCAE v4.03,Locke 2022 NEJM Supplement,100%
+TRANSFORM,car_t,Lisocabtagene maraleucel (liso-cel),crs_any,45,92,Lee 2014,Abramson 2023 Blood Supplement,Any-grade CRS
+TRANSFORM,car_t,Lisocabtagene maraleucel (liso-cel),crs_g3plus,1,92,Lee 2014,Abramson 2023 Blood Supplement,Single grade-3 CRS; no grade 4/5 CRS
+TRANSFORM,car_t,Lisocabtagene maraleucel (liso-cel),icans_any,10,92,CTCAE v4.03,Abramson 2023 Blood Supplement,Any-grade neurologic/ICANS event
+TRANSFORM,car_t,Lisocabtagene maraleucel (liso-cel),icans_g3plus,4,92,CTCAE v4.03,Abramson 2023 Blood Supplement,Grade 3 only; no grade 4/5 neurologic events
+TRANSFORM,car_t,Lisocabtagene maraleucel (liso-cel),teae_any,92,92,NA,Abramson 2023 Blood Supplement,Any treatment-emergent adverse event
+TRANSFORM,soc,Standard of care,teae_any,90,91,NA,Abramson 2023 Blood Supplement,Any treatment-emergent adverse event
+BELINDA,car_t,Tisagenlecleucel (tisa-cel),crs_any,95,155,Lee 2014,Bishop 2022 NEJM,Any-grade CRS; denominator = 155 infused tisa-cel patients
+BELINDA,car_t,Tisagenlecleucel (tisa-cel),crs_g3plus,8,155,Lee 2014,Bishop 2022 NEJM,Grade >=3 CRS; denominator = 155 infused patients
+BELINDA,car_t,Tisagenlecleucel (tisa-cel),icans_any,16,155,CTCAE v5.0,Bishop 2022 NEJM,Any-grade neurologic events; paper does not use the term ICANS; denominator = 155 infused patients
+BELINDA,car_t,Tisagenlecleucel (tisa-cel),icans_g3plus,3,155,CTCAE v5.0,Bishop 2022 NEJM,Grade >=3 neurologic events; denominator = 155 infused patients
+BELINDA,car_t,Tisagenlecleucel (tisa-cel),teae_any,160,162,CTCAE v5.0,Bishop 2022 NEJM,Any treatment-emergent adverse event; 98.8% of 162 randomized patients
+BELINDA,soc,Standard of care,teae_any,158,160,CTCAE v5.0,Bishop 2022 NEJM,Any treatment-emergent adverse event; 98.8% of 160 randomized patients

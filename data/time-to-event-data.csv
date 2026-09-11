@@ -1,3 +1,17 @@
-trial_id,outcome,estimand,hr,hr_lower,hr_upper,publication_used,source_type,data_cutoff_date,median_followup_months,source
-ZUMA-7,efs,itt,0.398,0.308,0.514,initial,reported,2021-03-18,24.9,Locke 2022 NEJM
-ZUMA-7,os,itt,0.726,0.54,0.977,followup,reported,2022-04-29,47.2,Westin 2023 NEJM
+trial_id,outcome,population,treatment_arm,comparator_arm,hr,hr_lower,hr_upper,treatment_median_months,comparator_median_months,publication_used,source_type,data_cutoff_date,median_followup_months,estimand,treatment_4yr_survival,comparator_4yr_survival,source
+ZUMA-7,efs,efficacy_set,axi_cel,soc,0.4,0.31,0.51,8.3,2,initial,reported,2021-03-18,24.9,NA,NA,NA,Locke 2022 NEJM (primary EFS; blinded central review)
+ZUMA-7,efs,efficacy_set,axi_cel,soc,0.42,0.33,0.55,10.8,2.3,followup,reported,2023-01-25,47.2,NA,NA,NA,Westin 2023 NEJM (updated EFS; investigator assessed)
+ZUMA-7,pfs,itt,axi_cel,soc,0.51,0.38,0.67,14.7,3.7,followup,reported,2023-01-25,47.2,NA,NA,NA,Westin 2023 NEJM (investigator-assessed PFS)
+ZUMA-7,os,itt,axi_cel,soc,0.73,0.53,1.01,NA,35.1,initial,reported,2021-03-18,24.9,NA,NA,NA,Locke 2022 NEJM
+ZUMA-7,os,itt,axi_cel,soc,0.73,0.54,0.98,NA,31.1,followup,reported,2023-01-25,47.2,NA,0.546,0.46,Westin 2023 NEJM
+ZUMA-7,os,itt,axi_cel,soc,0.58,0.42,0.81,NA,NA,initial,sensitivity_analysis,2021-03-18,24.9,rpsft_adjusted,NA,NA,Locke 2022 NEJM Supplement
+TRANSFORM,EFS,itt,liso_cel,soc,0.356,0.243,0.522,NA,NA,Abramson 2023 Blood,primary,2022-05-13,17.5,itt,NA,NA,Abramson 2023 Blood
+TRANSFORM,EFS,itt,liso_cel,soc,0.375,0.259,0.542,NA,NA,Kamdar 2025 JCO,follow-up,2023-10-23,33.9,itt,NA,NA,Kamdar 2025 JCO
+TRANSFORM,PFS,itt,liso_cel,soc,0.422,0.279,0.639,NA,NA,Kamdar 2025 JCO,follow-up,2023-10-23,33.9,itt,NA,NA,Kamdar 2025 JCO
+TRANSFORM,OS,itt,liso_cel,soc,0.724,0.443,1.183,NA,NA,Abramson 2023 Blood,primary,2022-05-13,17.5,itt,NA,NA,Abramson 2023 Blood
+TRANSFORM,OS,itt,liso_cel,soc,0.757,0.481,1.191,NA,NA,Kamdar 2025 JCO,follow-up,2023-10-23,33.9,itt,NA,NA,Kamdar 2025 JCO
+TRANSFORM,OS,itt,liso_cel,soc,0.335,0.189,0.594,NA,NA,Kamdar 2025 JCO,follow-up,2023-10-23,33.9,rpsft_adjusted,NA,NA,Kamdar 2025 JCO; two-stage AFT HR 0.566 (95% CI 0.359-0.895)
+BELINDA,EFS,itt,tisa_cel,soc,1.07,0.82,1.4,3,3,Bishop 2022 NEJM,reported,2021-05-06,10,itt,NA,NA,"Bishop 2022 NEJM; primary stratified analysis, P=0.61"
+BELINDA,EFS,itt,tisa_cel,soc,0.95,0.72,1.25,3,3,Bishop 2022 NEJM,reported,2021-05-06,10,covariate_adjusted,NA,NA,Bishop 2022 NEJM Table S5; covariate-adjusted supportive analysis
+BELINDA,OS,itt,tisa_cel,soc,1.24,0.83,1.85,NA,NA,Bishop 2022 NEJM,reported,2021-05-06,10,itt,NA,NA,Bishop 2022 NEJM; stratified unadjusted HR for death; OS immature
+BELINDA,OS,itt,tisa_cel,soc,0.99,0.64,1.52,NA,NA,Bishop 2022 NEJM,reported,2021-05-06,10,covariate_adjusted,NA,NA,Bishop 2022 NEJM; covariate-adjusted OS analysis

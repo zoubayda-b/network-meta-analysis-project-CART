@@ -1,5 +1,13 @@
 trial_id,arm,treatment,outcome,events,n,denominator_type,assessor,timepoint_note,source
-ZUMA-7,car_t,Axi-cel,crr,117,180,randomized,Investigator,best response,Locke 2022 NEJM Table 2
-ZUMA-7,soc,Standard of care,crr,57,179,randomized,Investigator,best response,Locke 2022 NEJM Table 2
-ZUMA-7,car_t,Axi-cel,orr,149,180,randomized,Investigator,best response,Locke 2022 NEJM Table 2
-ZUMA-7,soc,Standard of care,orr,90,179,randomized,Investigator,best response,Locke 2022 NEJM Table 2
+ZUMA-7,car_t,Axicabtagene ciloleucel,crr,117,180,randomized,Blinded central review,Primary analysis,Locke 2022 NEJM
+ZUMA-7,soc,Standard care,crr,58,179,randomized,Blinded central review,Primary analysis,Locke 2022 NEJM
+ZUMA-7,car_t,Axicabtagene ciloleucel,orr,150,180,randomized,Blinded central review,Primary analysis,Locke 2022 NEJM
+ZUMA-7,soc,Standard care,orr,90,179,randomized,Blinded central review,Primary analysis,Locke 2022 NEJM
+TRANSFORM,car_t,Lisocabtagene maraleucel (liso-cel),CRR,68,92,ITT,IRC,Primary analysis,Abramson 2023 Blood; Kamdar 2025 JCO
+TRANSFORM,soc,Standard of care,CRR,40,92,ITT,IRC,Primary analysis,Abramson 2023 Blood; Kamdar 2025 JCO
+TRANSFORM,car_t,Lisocabtagene maraleucel (liso-cel),ORR,80,92,ITT,IRC,Primary analysis,Abramson 2023 Blood; Kamdar 2025 JCO
+TRANSFORM,soc,Standard of care,ORR,45,92,ITT,IRC,Primary analysis,Abramson 2023 Blood; Kamdar 2025 JCO
+BELINDA,car_t,Tisagenlecleucel (tisa-cel),CRR,46,162,randomized,IRC,Best overall response at or after week 12,Bishop 2022 NEJM Table 2
+BELINDA,soc,Standard of care,CRR,44,160,randomized,IRC,Best overall response at or after week 12,Bishop 2022 NEJM Table 2
+BELINDA,car_t,Tisagenlecleucel (tisa-cel),ORR,75,162,randomized,IRC,Best overall response at or after week 12,Bishop 2022 NEJM Table 2
+BELINDA,soc,Standard of care,ORR,68,160,randomized,IRC,Best overall response at or after week 12,Bishop 2022 NEJM Table 2
