@@ -1,0 +1,4 @@
+comparison,HR,lo,hi
+axi-cel vs SOC,0.42,0.263,0.671
+liso-cel vs SOC,0.375,0.219,0.643
+tisa-cel vs SOC,1.07,0.666,1.72

@@ -1,0 +1,4 @@
+treatment,liso-cel,axi-cel,SOC
+liso-cel,liso-cel,.,0.422 [0.279; 0.639]
+axi-cel,0.827 [0.501; 1.367],axi-cel,0.510 [0.384; 0.677]
+SOC,0.422 [0.279; 0.639],0.510 [0.384; 0.677],SOC

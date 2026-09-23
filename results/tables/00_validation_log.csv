@@ -1,0 +1,14 @@
+check,type
+"TRANSFORM binary rows come from the Kamdar 2025 3-year follow-up (longest follow-up,
+      per protocol Timing rule). Claude could not independently re-verify 68/92, 40/92,
+      80/92, 45/92 against the JCO paper — confirm against Kamdar 2025 Table 2 before freezing.",NOTE
+"BELINDA PFS: not reported in Bishop 2022 — excluded from PFS NMA per protocol
+     (excluded rather than imputed).",NOTE
+"BELINDA OS: primary = stratified unadjusted ITT HR 1.24 (0.83-1.85). The
+     covariate-adjusted 0.99 is retained for sensitivity only.",NOTE
+"ZUMA-7 updated EFS (Westin 2023) is investigator-assessed per extraction notes —
+     flag for transitivity discussion (ZUMA-7 primary EFS was centrally assessed).",NOTE
+"BELINDA TEAE counts (160/162, 158/160) were back-calculated from 98.8% — flagged
+     in extraction; keep the flag in outputs.",NOTE
+"CRS/ICANS in SOC arms are only available for ZUMA-7 (neurologic events). Safety
+     synthesis is therefore descriptive + ZUMA-7 anchored ORs, per protocol.",NOTE

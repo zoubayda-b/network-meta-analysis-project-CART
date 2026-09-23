@@ -1,0 +1,21 @@
+trial_id,arm,treatment,outcome,events,n_safety,pct,grading_system,source
+BELINDA,car_t,Tisagenlecleucel (tisa-cel),crs_any,95,155,61.3,Lee 2014,Bishop 2022 NEJM
+TRANSFORM,car_t,Lisocabtagene maraleucel (liso-cel),crs_any,45,92,48.9,Lee 2014,Abramson 2023 Blood Supplement
+ZUMA-7,car_t,Axi-cel,crs_any,157,170,92.4,Modified Lee 2014,Locke 2022 NEJM Supplement
+BELINDA,car_t,Tisagenlecleucel (tisa-cel),crs_g3plus,8,155,5.2,Lee 2014,Bishop 2022 NEJM
+TRANSFORM,car_t,Lisocabtagene maraleucel (liso-cel),crs_g3plus,1,92,1.1,Lee 2014,Abramson 2023 Blood Supplement
+ZUMA-7,car_t,Axi-cel,crs_g3plus,11,170,6.5,Modified Lee 2014,Locke 2022 NEJM Supplement
+BELINDA,car_t,Tisagenlecleucel (tisa-cel),icans_any,16,155,10.3,CTCAE v5.0,Bishop 2022 NEJM
+TRANSFORM,car_t,Lisocabtagene maraleucel (liso-cel),icans_any,10,92,10.9,CTCAE v4.03,Abramson 2023 Blood Supplement
+ZUMA-7,soc,Standard care,icans_any,33,168,19.6,CTCAE v4.03,Locke 2022 NEJM Supplement
+ZUMA-7,car_t,Axi-cel,icans_any,102,170,60,CTCAE v4.03,Locke 2022 NEJM Supplement
+BELINDA,car_t,Tisagenlecleucel (tisa-cel),icans_g3plus,3,155,1.9,CTCAE v5.0,Bishop 2022 NEJM
+TRANSFORM,car_t,Lisocabtagene maraleucel (liso-cel),icans_g3plus,4,92,4.3,CTCAE v4.03,Abramson 2023 Blood Supplement
+ZUMA-7,soc,Standard care,icans_g3plus,1,168,0.6,CTCAE v4.03,Locke 2022 NEJM Supplement
+ZUMA-7,car_t,Axi-cel,icans_g3plus,36,170,21.2,CTCAE v4.03,Locke 2022 NEJM Supplement
+BELINDA,soc,Standard of care,teae_any,158,160,98.8,CTCAE v5.0,Bishop 2022 NEJM
+BELINDA,car_t,Tisagenlecleucel (tisa-cel),teae_any,160,162,98.8,CTCAE v5.0,Bishop 2022 NEJM
+TRANSFORM,soc,Standard of care,teae_any,90,91,98.9,NA,Abramson 2023 Blood Supplement
+TRANSFORM,car_t,Lisocabtagene maraleucel (liso-cel),teae_any,92,92,100,NA,Abramson 2023 Blood Supplement
+ZUMA-7,soc,Standard care,teae_any,168,168,100,CTCAE v4.03,Locke 2022 NEJM Supplement
+ZUMA-7,car_t,Axi-cel,teae_any,170,170,100,CTCAE v4.03,Locke 2022 NEJM Supplement

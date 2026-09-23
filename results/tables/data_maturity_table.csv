@@ -1,0 +1,17 @@
+trial_id,outcome,estimand,data_cutoff_date,median_followup_months,source
+BELINDA,efs,itt,2021-05-06,10,"Bishop 2022 NEJM; primary stratified analysis, P=0.61"
+BELINDA,efs,covariate_adjusted,2021-05-06,10,Bishop 2022 NEJM Table S5; covariate-adjusted supportive analysis
+BELINDA,os,itt,2021-05-06,10,Bishop 2022 NEJM; stratified unadjusted HR for death; OS immature
+BELINDA,os,covariate_adjusted,2021-05-06,10,Bishop 2022 NEJM; covariate-adjusted OS analysis
+TRANSFORM,efs,itt,2022-05-13,17.5,Abramson 2023 Blood
+TRANSFORM,efs,itt,2023-10-23,33.9,Kamdar 2025 JCO
+TRANSFORM,os,itt,2022-05-13,17.5,Abramson 2023 Blood
+TRANSFORM,os,itt,2023-10-23,33.9,Kamdar 2025 JCO
+TRANSFORM,os,rpsft_adjusted,2023-10-23,33.9,Kamdar 2025 JCO; two-stage AFT HR 0.566 (95% CI 0.359-0.895)
+TRANSFORM,pfs,itt,2023-10-23,33.9,Kamdar 2025 JCO
+ZUMA-7,efs,NA,2021-03-18,24.9,Locke 2022 NEJM (primary EFS; blinded central review)
+ZUMA-7,efs,NA,2023-01-25,47.2,Westin 2023 NEJM (updated EFS; investigator assessed)
+ZUMA-7,os,NA,2021-03-18,24.9,Locke 2022 NEJM
+ZUMA-7,os,NA,2023-01-25,47.2,Westin 2023 NEJM
+ZUMA-7,os,rpsft_adjusted,2021-03-18,24.9,Locke 2022 NEJM Supplement
+ZUMA-7,pfs,NA,2023-01-25,47.2,Westin 2023 NEJM (investigator-assessed PFS)

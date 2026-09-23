@@ -1,0 +1,11 @@
+Outcome,Domain,Rating,Justification
+CRR,Within-study bias,Low,All three RCTs centrally randomized; response by blinded IRC; RoB2 Low.
+CRR,Indirectness,Moderate,SOC node pools 3 different salvage/ASCT programs (SOC CRR 27.5-44%); BELINDA enrolled more non-US; refractory/relapse mix differs.
+CRR,Imprecision,Moderate,CIs for CAR-T vs CAR-T comparisons are wide and cross the pre-specified OR 1.25 threshold in both directions.
+CRR,Heterogeneity,Moderate,"Not estimable (one trial per edge); structural limitation, not evidence of absence."
+CRR,Incoherence,Low,"Star network: no closed loops, no direct-indirect contrast exists to disagree."
+OS,Within-study bias,Moderate,Open-label with crossover (TRANSFORM/BELINDA) and off-protocol CAR-T (ZUMA-7): RoB2 some concerns for OS.
+OS,Indirectness,High,"SOC node means 3 different things for OS (crossover 51-62%, commercial CAR-T 57%); follow-up maturity 10-47 months."
+OS,Imprecision,High,All CIs cross HR 0.80 threshold; TRANSFORM and BELINDA OS CIs span 1.
+OS,Heterogeneity,Moderate,Not estimable; clinical heterogeneity (crossover routes) is demonstrable instead.
+OS,Incoherence,Low,No closed loops; not assessable statistically.

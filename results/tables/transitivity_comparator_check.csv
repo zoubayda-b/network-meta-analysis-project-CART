@@ -1,0 +1,4 @@
+trial_id,events_crr,events_orr,n_crr,n_orr,rate_crr,rate_orr,hr,hr_lower,hr_upper,median_followup_months,salvage_regimens,pct_reached_asct,pct_soc_subsequent_cart
+ZUMA-7,58,90,179,179,0.324,0.503,0.73,0.54,0.98,47.2,NA,36,57
+TRANSFORM,40,45,92,92,0.435,0.489,0.757,0.481,1.191,33.9,R-DHAP / R-ICE / R-GDP,47,62
+BELINDA,44,68,160,160,0.275,0.425,1.24,0.83,1.85,10,R-DHAP / R-GDP / R-GemOx / R-ICE,32.5,50.6

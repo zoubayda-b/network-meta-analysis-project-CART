@@ -1,0 +1,16 @@
+name,ZUMA-7_car_t,ZUMA-7_soc,TRANSFORM_car_t,TRANSFORM_soc,BELINDA_car_t,BELINDA_soc
+n_randomized,180,179,92,92,162,160
+median_age,58,60,60,58,59.5,58
+pct_primary_refractory,74,73,73,76,66,67
+pct_relapse_lt12mo,26,27,27,24,34,33
+pct_ipi_distribution,Second-line age-adjusted IPI of 2 or 3: 46%,Second-line age-adjusted IPI of 2 or 3: 44%,sAAIPI 0-1: 61%; 2-3: 39%,sAAIPI 0-1: 60%; 2-3: 40%,IPI >=2: 65%; <2: 35%,IPI >=2: 58%; <2: 42%
+pct_stage_iii_iv,77,82,74,68,66,61
+region_note,"77 sites in 14 countries; North America 78%, Europe 19%, Israel/Australia ~3%","77 sites in 14 countries; North America 78%, Europe 19%, Israel/Australia ~3%","Multinational (US, Europe, Japan)","Multinational (US, Europe, Japan)","65 centers in 18 countries; US 29.6%, non-US 70.4%","65 centers in 18 countries; US 29.6%, non-US 70.4%"
+bridging_chemo_allowed,No,No,Yes,Yes,Yes,Yes
+bridging_details,Glucocorticoids were permitted for disease control,Glucocorticoids were permitted for disease control,1 cycle of platinum-based standard-of-care regimen permitted,1 cycle of platinum-based standard-of-care regimen permitted,Investigator choice of protocol-specified bridging chemotherapy; 135/162 (83.3%) received bridging therapy,Investigator choice of protocol-specified salvage/bridging chemotherapy
+crossover_allowed,No,No,Yes,Yes,Yes,Yes
+response_assessor,Blinded central review,Blinded central review,IRC,IRC,IRC,IRC
+crs_grading,Modified Lee 2014,Modified Lee 2014,Lee 2014,Lee 2014,Lee 2014,Lee 2014
+icans_grading,CTCAE v4.03,CTCAE v4.03,CTCAE v4.03,CTCAE v4.03,CTCAE v5.0,CTCAE v5.0
+pct_reached_asct,NA,36,NA,47,NA,32.5
+pct_soc_subsequent_cart,NA,57,NA,62,NA,50.6

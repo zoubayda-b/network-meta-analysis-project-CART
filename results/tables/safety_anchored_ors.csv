@@ -1,0 +1,6 @@
+trial_id,outcome,OR,lo,hi,interpretation
+BELINDA,teae_any,1.013,0.141,7.278,"anchored OR (CAR-T vs SOC, within trial)"
+TRANSFORM,teae_any,3.066,0.123,76.262,"anchored OR (CAR-T vs SOC, within trial)"
+ZUMA-7,icans_any,6.136,3.763,10.005,"anchored OR (CAR-T vs SOC, within trial)"
+ZUMA-7,icans_g3plus,44.866,6.072,331.501,"anchored OR (CAR-T vs SOC, within trial)"
+ZUMA-7,teae_any,NA,NA,NA,"anchored OR (CAR-T vs SOC, within trial)"
