@@ -1,12 +1,8 @@
-# ==================================================================
-# BELINDA EXTRACTION
-# ==================================================================
-
 library(tidyverse)
 
-# ------------------------------------------------------------------
+
 # SAFE CSV READER
-# ------------------------------------------------------------------
+
 
 safe_read <- function(path) {
   if (!file.exists(path)) return(tibble())
@@ -18,10 +14,8 @@ safe_read <- function(path) {
   x
 }
 
-# ------------------------------------------------------------------
-# READ EXISTING DATA
-# ------------------------------------------------------------------
 
+# READ EXISTING DATA
 characteristics <- safe_read("data/characteristics.csv")
 binary_data     <- safe_read("data/binary-data.csv")
 tte_data        <- safe_read("data/time-to-event-data.csv")

@@ -7,7 +7,7 @@
 #   - efficacy denominators match characteristics.csv (ITT); safety uses n_safety
 #   - exactly one primary row per trial x outcome after source selection
 #   - label harmonization applied here is the single documented place it happens
-# Run from the repo root: Rscript R/03_check_extraction.R
+# Rscript R/03_check_extraction.R
 # ==============================================================================
 
 library(tidyverse)

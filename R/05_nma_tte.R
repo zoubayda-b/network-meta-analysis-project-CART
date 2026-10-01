@@ -26,7 +26,7 @@ treat_map <- c("axi_cel" = "axi-cel", "liso_cel" = "liso-cel",
                "tisa_cel" = "tisa-cel")
 
 # ------------------------------------------------------------------------------
-# Analysis set definitions (explicit, auditable)
+# Analysis set definitions
 # ------------------------------------------------------------------------------
 mature <- c("ZUMA-7" = "Westin 2023", "TRANSFORM" = "Kamdar 2025",
             "BELINDA" = "Bishop 2022")
