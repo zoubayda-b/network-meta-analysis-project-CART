@@ -1,11 +1,11 @@
 Outcome,Domain,Rating,Justification
-CRR,Within-study bias,Low,All three RCTs centrally randomized; response by blinded IRC; RoB2 Low.
-CRR,Indirectness,Moderate,SOC node pools 3 different salvage/ASCT programs (SOC CRR 27.5-44%); BELINDA enrolled more non-US; refractory/relapse mix differs.
-CRR,Imprecision,Moderate,CIs for CAR-T vs CAR-T comparisons are wide and cross the pre-specified OR 1.25 threshold in both directions.
-CRR,Heterogeneity,Moderate,"Not estimable (one trial per edge); structural limitation, not evidence of absence."
-CRR,Incoherence,Low,"Star network: no closed loops, no direct-indirect contrast exists to disagree."
-OS,Within-study bias,Moderate,Open-label with crossover (TRANSFORM/BELINDA) and off-protocol CAR-T (ZUMA-7): RoB2 some concerns for OS.
-OS,Indirectness,High,"SOC node means 3 different things for OS (crossover 51-62%, commercial CAR-T 57%); follow-up maturity 10-47 months."
-OS,Imprecision,High,All CIs cross HR 0.80 threshold; TRANSFORM and BELINDA OS CIs span 1.
-OS,Heterogeneity,Moderate,Not estimable; clinical heterogeneity (crossover routes) is demonstrable instead.
-OS,Incoherence,Low,No closed loops; not assessable statistically.
+CRR,Within-study bias,Low,"All three are randomised, response is read by a blinded committee, RoB 2 low."
+CRR,Indirectness,Moderate,"The SOC node mixes three salvage and ASCT pathways (SOC CRR 27.5% to 43.5%), and the refractory/relapse mix differs a little between trials."
+CRR,Imprecision,Moderate,The CAR-T vs CAR-T intervals are wide and cross the OR 1.25 threshold in both directions.
+CRR,Heterogeneity,Not assessable,"One trial per comparison, so tau^2 cannot be estimated. This is a limit of the data, not evidence that heterogeneity is zero."
+CRR,Incoherence,Not assessable,"Star network with no closed loop, so there is no direct and indirect evidence to compare."
+OS,Within-study bias,Moderate,"Open label, with crossover in TRANSFORM and BELINDA and commercial CAR-T after progression in ZUMA-7. RoB 2 some concerns."
+OS,Indirectness,High,"The SOC node means three different things for OS, and follow-up runs from 10 to 47 months."
+OS,Imprecision,High,All intervals cross the HR 0.80 threshold and two of the three include 1.
+OS,Heterogeneity,Not assessable,Not estimable. The clinical differences in crossover are the real concern here.
+OS,Incoherence,Not assessable,"No closed loop, so incoherence cannot be tested."

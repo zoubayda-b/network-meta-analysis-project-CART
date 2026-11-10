@@ -1,17 +1,12 @@
-# ==============================================================================
 # 05_nma_tte.R
-# ------------------------------------------------------------------------------
-# Time-to-event NMAs (hazard ratio scale, common-effect, reference = SOC):
-#   KEY SECONDARY: OS (ITT, longest follow-up per trial)
-#   EXPLORATORY:   EFS (definitions NOT harmonized — transitivity caveat),
-#                  PFS (BELINDA excluded: not reported — exclusion per protocol)
-# SENSITIVITY 2: follow-up duration — earliest readout per trial instead of latest
-# SENSITIVITY 3: crossover-adjusted OS (RPSFT; BELINDA has no RPSFT — its
-#                covariate-adjusted OS is used and flagged as NOT comparable)
-# SENSITIVITY 4: assumed moderate heterogeneity, tau.preset = 0.2 on the log-HR
-#                scale (moderate per Rhodes 2015 / Turner 2012 for TTE outcomes)
-# Run from repo root: Rscript R/05_nma_tte.R
-# ==============================================================================
+# Time to event network meta-analysis, hazard ratio scale, common effect model.
+#   OS  = key secondary, intention to treat, most mature follow-up
+#   EFS = exploratory (the three trials define an EFS event differently)
+#   PFS = exploratory (BELINDA does not report it, so it is not in the network)
+#   sensitivity 2: earliest readout instead of the most mature one
+#   sensitivity 3: crossover adjusted OS
+#   sensitivity 4: assumed tau of 0.2 on the log HR scale
+# Run from the repo root: Rscript R/05_nma_tte.R
 
 library(tidyverse)
 library(netmeta)
@@ -25,11 +20,13 @@ tte <- read_csv("data/time-to-event-data.csv", show_col_types = FALSE) %>%
 treat_map <- c("axi_cel" = "axi-cel", "liso_cel" = "liso-cel",
                "tisa_cel" = "tisa-cel")
 
-# ------------------------------------------------------------------------------
-# Analysis set definitions
-# ------------------------------------------------------------------------------
-mature <- c("ZUMA-7" = "Westin 2023", "TRANSFORM" = "Kamdar 2025",
-            "BELINDA" = "Bishop 2022")
+
+# ------------------------------------------------------------------
+# which publication counts as the primary source for each trial
+# ------------------------------------------------------------------
+
+mature   <- c("ZUMA-7" = "Westin 2023", "TRANSFORM" = "Kamdar 2025",
+              "BELINDA" = "Bishop 2022")
 earliest <- c("ZUMA-7" = "Locke 2022", "TRANSFORM" = "Abramson 2023",
               "BELINDA" = "Bishop 2022")
 
@@ -40,21 +37,24 @@ pick_rows <- function(source_map, estimands) {
 }
 
 sets <- list(
-  primary_os   = pick_rows(mature,   "itt")               %>% filter(outcome == "os"),
-  primary_efs  = pick_rows(mature,   "itt")               %>% filter(outcome == "efs"),
-  primary_pfs  = pick_rows(mature,   "itt")               %>% filter(outcome == "pfs"),
-  sens2_os     = pick_rows(earliest, "itt")               %>% filter(outcome == "os"),
-  sens2_efs    = pick_rows(earliest, "itt")               %>% filter(outcome == "efs"),
-  sens3_os_adj = tte %>% filter(outcome == "os",
-                                estimand %in% c("rpsft_adjusted", "covariate_adjusted"))
+  primary_os   = pick_rows(mature,   "itt") %>% filter(outcome == "os"),
+  primary_efs  = pick_rows(mature,   "itt") %>% filter(outcome == "efs"),
+  primary_pfs  = pick_rows(mature,   "itt") %>% filter(outcome == "pfs"),
+  sens2_os     = pick_rows(earliest, "itt") %>% filter(outcome == "os"),
+  sens2_efs    = pick_rows(earliest, "itt") %>% filter(outcome == "efs"),
+  sens3_os_adj = tte %>%
+    filter(outcome == "os",
+           estimand %in% c("rpsft_adjusted", "covariate_adjusted"))
 )
 
 stopifnot(all(vapply(sets, nrow, integer(1)) > 0))
 
-# ------------------------------------------------------------------------------
-# NMA function (contrast-based; HR scale)
-# ------------------------------------------------------------------------------
-run_tte_nma <- function(dat, label, tau_assumed = NULL, write_outputs = TRUE) {
+
+# ------------------------------------------------------------------
+# the analysis itself
+# ------------------------------------------------------------------
+
+run_tte_nma <- function(dat, label, tau_assumed = NULL) {
 
   dat <- dat %>%
     mutate(TE     = log(hr),
@@ -68,16 +68,14 @@ run_tte_nma <- function(dat, label, tau_assumed = NULL, write_outputs = TRUE) {
                reference.group = "SOC")
   net <- do.call(netmeta, args)
 
-  # Protocol validation: reproduce trial inputs exactly
-  direct <- as.data.frame(net$TE.direct.common)
-  for (i in seq_len(nrow(dat)))
-    stopifnot(abs(direct[dat$treat1[i], "SOC"] - dat$TE[i]) < 1e-8)
+  # one trial per comparison, so the network estimates must equal the inputs
+  for (i in seq_len(nrow(dat))) {
+    stopifnot(abs(net$TE.common[dat$treat1[i], "SOC"] - dat$TE[i]) < 1e-8)
+  }
+  cat("  check: network estimates reproduce the trial HRs\n")
 
-  if (!write_outputs) return(invisible(net))
-
-  # netmeta 3.x: TE.common[i, j] = effect of row i vs column j. Use the matrix
-  # (TE.nma.common vector uses alphabetical-pair signs) and verify the tabled
-  # value against each trial input — sign must match by construction.
+  # TE.common[i, j] is treatment i against treatment j, so the SOC column gives
+  # every treatment against the reference
   trts_vs_ref <- setdiff(net$trts, "SOC")
   hrs <- data.frame(
     comparison = paste(trts_vs_ref, "vs SOC"),
@@ -85,13 +83,11 @@ run_tte_nma <- function(dat, label, tau_assumed = NULL, write_outputs = TRUE) {
     lo         = round(exp(net$lower.common[trts_vs_ref, "SOC"]), 3),
     hi         = round(exp(net$upper.common[trts_vs_ref, "SOC"]), 3)
   )
-  for (i in seq_len(nrow(dat)))
-    stopifnot(abs(hrs$HR[hrs$comparison == paste(dat$treat1[i], "vs SOC")] -
-                    round(dat$hr[i], 3)) < 0.002)
-  cat("  validation: tabled HRs match trial inputs (sign checked) — OK\n")
   write_csv(hrs, paste0("results/tables/nma_", label, "_vs_soc.csv"))
 
+  # a hazard ratio below 1 is good here, so small values are the desirable ones
   nr <- netrank(net, small.values = "desirable")
+
   league <- netleague(net, digits = 3, seq = nr)
   write_csv(as.data.frame(league$common) %>% rownames_to_column("treatment"),
             paste0("results/tables/nma_", label, "_league.csv"))
@@ -100,9 +96,10 @@ run_tte_nma <- function(dat, label, tau_assumed = NULL, write_outputs = TRUE) {
                         p_score   = round(unname(nr$ranking.common), 3))
   write_csv(pscores, paste0("results/tables/nma_", label, "_pscores.csv"))
 
-  png(paste0("results/figures/forest_", label, "_vs_soc.png"), width = 1000, height = 600, res = 110)
+  png(paste0("results/figures/forest_", label, "_vs_soc.png"),
+      width = 1000, height = 600, res = 110)
   forest(net, reference.group = "SOC",
-         smlab = paste0(label, " — Hazard ratio vs SOC (<1 favors CAR-T)"))
+         smlab = paste0(label, "\nhazard ratio vs SOC (<1 favours CAR-T)"))
   dev.off()
 
   if (!is.null(tau_assumed)) {
@@ -110,6 +107,7 @@ run_tte_nma <- function(dat, label, tau_assumed = NULL, write_outputs = TRUE) {
     re_args$random     <- TRUE
     re_args$tau.preset <- tau_assumed
     net_re <- do.call(netmeta, re_args)
+
     trts_re <- setdiff(net_re$trts, "SOC")
     hrs_re <- data.frame(
       comparison = paste(trts_re, "vs SOC"),
@@ -119,31 +117,35 @@ run_tte_nma <- function(dat, label, tau_assumed = NULL, write_outputs = TRUE) {
     )
     write_csv(hrs_re, paste0("results/tables/nma_", label, "_vs_soc_tau_assumed.csv"))
   }
+
   invisible(net)
 }
 
-# ------------------------------------------------------------------------------
-# Run analyses
-# ------------------------------------------------------------------------------
-cat("== KEY SECONDARY: OS (ITT, longest follow-up) ==\n")
+
+# ------------------------------------------------------------------
+# run
+# ------------------------------------------------------------------
+
+cat("== key secondary: OS (ITT, most mature follow-up) ==\n")
 net_os <- run_tte_nma(sets$primary_os, "os", tau_assumed = 0.2)
 print(net_os, reference.group = "SOC", digits = 3)
 
-cat("\n== EXPLORATORY: EFS (definitions NOT harmonized — interpret under caveat) ==\n")
+cat("\n== exploratory: EFS (definitions are not harmonised) ==\n")
 net_efs <- run_tte_nma(sets$primary_efs, "efs_exploratory", tau_assumed = 0.2)
 print(net_efs, reference.group = "SOC", digits = 3)
 
-cat("\n== EXPLORATORY: PFS (BELINDA excluded — not reported) ==\n")
+cat("\n== exploratory: PFS (BELINDA not reported) ==\n")
 net_pfs <- run_tte_nma(sets$primary_pfs, "pfs_exploratory")
 print(net_pfs, reference.group = "SOC", digits = 3)
 
-cat("\n== SENSITIVITY 2: earliest readout per trial ==\n")
+cat("\n== sensitivity 2: earliest readout per trial ==\n")
 run_tte_nma(sets$sens2_os,  "os_sens2_earliest_readout")
 run_tte_nma(sets$sens2_efs, "efs_sens2_earliest_readout")
 
-cat("\n== SENSITIVITY 3: crossover-adjusted OS ==\n")
-cat("   ZUMA-7 RPSFT 0.58 | TRANSFORM RPSFT 0.335 | BELINDA covariate-adjusted 0.99\n")
-cat("   (BELINDA adjustment is NOT a crossover adjustment — flagged, protocol caveat)\n")
+cat("\n== sensitivity 3: crossover adjusted OS ==\n")
+cat("   ZUMA-7 RPSFT 0.58 | TRANSFORM adjusted 0.335 | BELINDA covariate adjusted 0.99\n")
+cat("   the BELINDA estimate is not a crossover adjustment, so it is only there\n")
+cat("   to show what the trial reported and should not be read the same way\n")
 run_tte_nma(sets$sens3_os_adj, "os_sens3_crossover_adjusted")
 
-cat("\nDone. HR<1 favors CAR-T. P-scores: protocol framing applies (indirect only).\n")
+cat("\ndone. a hazard ratio below 1 favours CAR-T.\n")

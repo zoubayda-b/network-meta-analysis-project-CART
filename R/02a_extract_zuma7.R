@@ -1,34 +1,35 @@
+# 02a_extract_zuma7.R
+# ZUMA-7 numbers, from Locke 2022 (NEJM 386:640-654) and Westin 2023
+# (NEJM 389:148-157) for the updated survival results.
+# Re-running the script replaces the ZUMA-7 rows and keeps the other trials.
+
 library(tibble)
 library(dplyr)
 library(readr)
 
-# Create data folder if it does not already exist
 if (!dir.exists("data")) dir.create("data")
 
-# Safe CSV reader
-safe_read <- function(path) {
-  if (!file.exists(path)) return(tibble())
-
-  x <- read_csv(path, show_col_types = FALSE)
-
-  if (nrow(x) == 0) return(tibble())
-
-  x
+# read a data file, drop the rows of one trial, add the new ones back
+replace_trial <- function(path, new_rows, key, trial) {
+  if (file.exists(path)) {
+    old <- read_csv(path, show_col_types = FALSE)
+  } else {
+    old <- tibble()
+  }
+  if ("data_cutoff_date" %in% names(old)) {
+    old <- mutate(old, data_cutoff_date = as.character(data_cutoff_date))
+  }
+  if (nrow(old) > 0) old <- old[old[[key]] != trial, ]
+  write_csv(bind_rows(old, new_rows), path)
 }
 
-# Read existing CSV files
-characteristics_data <- safe_read("data/characteristics.csv")
-binary_data          <- safe_read("data/binary-data.csv")
-tte_data             <- safe_read("data/time-to-event-data.csv")
-pro_data             <- safe_read("data/patient-reported-outcomes.csv")
-ae_data              <- safe_read("data/adverse-events.csv")
 
+# ------------------------------------------------------------------
+# characteristics
+# ------------------------------------------------------------------
 
-# ============================================================
-# ZUMA-7 CHARACTERISTICS
-# ============================================================
+zuma7_chars <- bind_rows(
 
-zuma7_characteristics <- bind_rows(
   tibble(
     trial_name                 = "ZUMA-7",
     nct                        = "NCT03391466",
@@ -39,7 +40,7 @@ zuma7_characteristics <- bind_rows(
     median_followup_months     = 24.9,
     randomization_ratio        = "1:1",
     bridging_chemo_allowed     = "No",
-    bridging_details           = "Glucocorticoids were permitted for disease control",
+    bridging_details           = "Glucocorticoids were allowed for disease control",
     crossover_allowed          = "No",
     response_assessor          = "Blinded central review",
     efs_definition_verbatim    = "Time from randomization to disease progression according to Lugano classification, commencement of new lymphoma therapy, or death from any cause",
@@ -47,22 +48,22 @@ zuma7_characteristics <- bind_rows(
     crs_grading                = "Modified Lee 2014",
     icans_grading              = "CTCAE v4.03",
     arm                        = "car_t",
-    treatment                  = "Axicabtagene ciloleucel (axi-cel); single infusion of 2×10^6 cells/kg after fludarabine/cyclophosphamide lymphodepletion",
+    treatment                  = "Axicabtagene ciloleucel",
     n_randomized               = 180,
     n_safety                   = 170,
     n_infused                  = 170,
     median_age                 = 58,
     pct_primary_refractory     = 74,
     pct_relapse_lt12mo         = 26,
-    pct_ipi_distribution       = "Second-line age-adjusted IPI of 2 or 3: 46%",
+    pct_ipi_distribution       = "Second-line age-adjusted IPI 2-3: 46%",
     pct_stage_iii_iv           = 77,
-    region_note                = "77 sites in 14 countries; North America 78%, Europe 19%, Israel/Australia ~3%",
+    region_note                = "77 sites in 14 countries; North America 78%, Europe 19%",
     median_days_dx_to_infusion = NA_real_,
     salvage_regimens           = NA_character_,
-    pct_reached_asct            = NA_real_,
+    pct_reached_asct           = NA_real_,
     pct_soc_subsequent_cart    = NA_real_,
     source                     = "Locke 2022 NEJM",
-    notes                      = "Second-line LBCL; bridging chemotherapy prohibited; glucocorticoids permitted"
+    notes                      = "Bridging chemotherapy not allowed; glucocorticoids allowed"
   ),
 
   tibble(
@@ -75,7 +76,7 @@ zuma7_characteristics <- bind_rows(
     median_followup_months     = 24.9,
     randomization_ratio        = "1:1",
     bridging_chemo_allowed     = "No",
-    bridging_details           = "Glucocorticoids were permitted for disease control",
+    bridging_details           = "Glucocorticoids were allowed for disease control",
     crossover_allowed          = "No",
     response_assessor          = "Blinded central review",
     efs_definition_verbatim    = "Time from randomization to disease progression according to Lugano classification, commencement of new lymphoma therapy, or death from any cause",
@@ -83,39 +84,31 @@ zuma7_characteristics <- bind_rows(
     crs_grading                = "Modified Lee 2014",
     icans_grading              = "CTCAE v4.03",
     arm                        = "soc",
-    treatment                  = "Investigator's choice of platinum-based chemoimmunotherapy followed by high-dose therapy and autologous stem-cell transplantation in eligible patients",
+    treatment                  = "Standard of care",
     n_randomized               = 179,
     n_safety                   = 168,
     n_infused                  = NA_real_,
     median_age                 = 60,
     pct_primary_refractory     = 73,
     pct_relapse_lt12mo         = 27,
-    pct_ipi_distribution       = "Second-line age-adjusted IPI of 2 or 3: 44%",
+    pct_ipi_distribution       = "Second-line age-adjusted IPI 2-3: 44%",
     pct_stage_iii_iv           = 82,
-    region_note                = "77 sites in 14 countries; North America 78%, Europe 19%, Israel/Australia ~3%",
+    region_note                = "77 sites in 14 countries; North America 78%, Europe 19%",
     median_days_dx_to_infusion = NA_real_,
     salvage_regimens           = NA_character_,
-    pct_reached_asct            = 36,
+    pct_reached_asct           = 36,
     pct_soc_subsequent_cart    = 57,
     source                     = "Locke 2022 NEJM; Westin 2023 NEJM",
-    notes                      = "Standard-care control arm; 57% subsequently received cellular immunotherapy off protocol"
+    notes                      = "57% of this arm later received commercial CAR-T after progression"
   )
 )
 
-characteristics_data <- characteristics_data %>%
-  {
-    if ("trial_name" %in% names(.))
-      filter(., trial_name != "ZUMA-7")
-    else .
-  } %>%
-  bind_rows(zuma7_characteristics)
-
-write_csv(characteristics_data, "data/characteristics.csv")
+replace_trial("data/characteristics.csv", zuma7_chars, "trial_name", "ZUMA-7")
 
 
-# ============================================================
-# ZUMA-7 BINARY OUTCOMES
-# ============================================================
+# ------------------------------------------------------------------
+# binary outcomes (ITT denominators)
+# ------------------------------------------------------------------
 
 zuma7_binary <- bind_rows(
   tibble(
@@ -128,22 +121,20 @@ zuma7_binary <- bind_rows(
     denominator_type = "randomized",
     assessor         = "Blinded central review",
     timepoint_note   = "Primary analysis",
-    source           = "Locke 2022 NEJM"
+    source           = "Locke 2022 NEJM Table 2"
   ),
-
   tibble(
     trial_id         = "ZUMA-7",
     arm              = "soc",
-    treatment        = "Standard care",
+    treatment        = "Standard of care",
     outcome          = "crr",
     events           = 58,
     n                = 179,
     denominator_type = "randomized",
     assessor         = "Blinded central review",
     timepoint_note   = "Primary analysis",
-    source           = "Locke 2022 NEJM"
+    source           = "Locke 2022 NEJM Table 2"
   ),
-
   tibble(
     trial_id         = "ZUMA-7",
     arm              = "car_t",
@@ -154,37 +145,28 @@ zuma7_binary <- bind_rows(
     denominator_type = "randomized",
     assessor         = "Blinded central review",
     timepoint_note   = "Primary analysis",
-    source           = "Locke 2022 NEJM"
+    source           = "Locke 2022 NEJM Table 2"
   ),
-
   tibble(
     trial_id         = "ZUMA-7",
     arm              = "soc",
-    treatment        = "Standard care",
+    treatment        = "Standard of care",
     outcome          = "orr",
     events           = 90,
     n                = 179,
     denominator_type = "randomized",
     assessor         = "Blinded central review",
     timepoint_note   = "Primary analysis",
-    source           = "Locke 2022 NEJM"
+    source           = "Locke 2022 NEJM Table 2"
   )
 )
 
-binary_data <- binary_data %>%
-  {
-    if ("trial_id" %in% names(.))
-      filter(., trial_id != "ZUMA-7")
-    else .
-  } %>%
-  bind_rows(zuma7_binary)
-
-write_csv(binary_data, "data/binary-data.csv")
+replace_trial("data/binary-data.csv", zuma7_binary, "trial_id", "ZUMA-7")
 
 
-# ============================================================
-# ZUMA-7 TIME-TO-EVENT OUTCOMES
-# ============================================================
+# ------------------------------------------------------------------
+# time to event
+# ------------------------------------------------------------------
 
 zuma7_tte <- bind_rows(
   tibble(
@@ -205,9 +187,8 @@ zuma7_tte <- bind_rows(
     estimand                 = NA_character_,
     treatment_4yr_survival   = NA_real_,
     comparator_4yr_survival  = NA_real_,
-    source                   = "Locke 2022 NEJM (primary EFS; blinded central review)"
+    source                   = "Locke 2022 NEJM (primary EFS, blinded central review)"
   ),
-
   tibble(
     trial_id                 = "ZUMA-7",
     outcome                  = "efs",
@@ -219,16 +200,15 @@ zuma7_tte <- bind_rows(
     hr_upper                 = 0.55,
     treatment_median_months  = 10.8,
     comparator_median_months = 2.3,
-    publication_used         = "followup",
+    publication_used         = "follow-up",
     source_type              = "reported",
     data_cutoff_date         = "2023-01-25",
     median_followup_months   = 47.2,
     estimand                 = NA_character_,
     treatment_4yr_survival   = NA_real_,
     comparator_4yr_survival  = NA_real_,
-    source                   = "Westin 2023 NEJM (updated EFS; investigator assessed)"
+    source                   = "Westin 2023 NEJM (updated EFS, investigator assessed)"
   ),
-
   tibble(
     trial_id                 = "ZUMA-7",
     outcome                  = "pfs",
@@ -240,16 +220,15 @@ zuma7_tte <- bind_rows(
     hr_upper                 = 0.67,
     treatment_median_months  = 14.7,
     comparator_median_months = 3.7,
-    publication_used         = "followup",
+    publication_used         = "follow-up",
     source_type              = "reported",
     data_cutoff_date         = "2023-01-25",
     median_followup_months   = 47.2,
     estimand                 = NA_character_,
     treatment_4yr_survival   = NA_real_,
     comparator_4yr_survival  = NA_real_,
-    source                   = "Westin 2023 NEJM (investigator-assessed PFS)"
+    source                   = "Westin 2023 NEJM (investigator assessed PFS)"
   ),
-
   tibble(
     trial_id                 = "ZUMA-7",
     outcome                  = "os",
@@ -270,7 +249,6 @@ zuma7_tte <- bind_rows(
     comparator_4yr_survival  = NA_real_,
     source                   = "Locke 2022 NEJM"
   ),
-
   tibble(
     trial_id                 = "ZUMA-7",
     outcome                  = "os",
@@ -282,7 +260,7 @@ zuma7_tte <- bind_rows(
     hr_upper                 = 0.98,
     treatment_median_months  = NA_real_,
     comparator_median_months = 31.1,
-    publication_used         = "followup",
+    publication_used         = "follow-up",
     source_type              = "reported",
     data_cutoff_date         = "2023-01-25",
     median_followup_months   = 47.2,
@@ -291,7 +269,6 @@ zuma7_tte <- bind_rows(
     comparator_4yr_survival  = 0.460,
     source                   = "Westin 2023 NEJM"
   ),
-
   tibble(
     trial_id                 = "ZUMA-7",
     outcome                  = "os",
@@ -310,125 +287,105 @@ zuma7_tte <- bind_rows(
     estimand                 = "rpsft_adjusted",
     treatment_4yr_survival   = NA_real_,
     comparator_4yr_survival  = NA_real_,
-    source                   = "Locke 2022 NEJM Supplement"
+    source                   = "Locke 2022 NEJM Supplement (RPSFT adjusted for crossover)"
   )
 )
 
-tte_data <- tte_data %>%
-  {
-    if ("trial_id" %in% names(.))
-      filter(., trial_id != "ZUMA-7")
-    else .
-  } %>%
-  bind_rows(zuma7_tte)
-
-write_csv(tte_data, "data/time-to-event-data.csv")
+replace_trial("data/time-to-event-data.csv", zuma7_tte, "trial_id", "ZUMA-7")
 
 
-# ============================================================
-# ZUMA-7 PATIENT-REPORTED OUTCOMES
-# ============================================================
+# ------------------------------------------------------------------
+# patient reported outcomes
+# Note: the value column holds the between-arm difference, not the arm mean.
+# ------------------------------------------------------------------
 
 zuma7_pro <- bind_rows(
   tibble(
     trial_id     = "ZUMA-7",
-    arm          = "axi_cel",
-    instrument   = "EORTC QLQ-C30 global health status/QoL",
+    arm          = "car_t",
+    instrument   = "EORTC QLQ-C30 global health status",
     timepoint    = "day 100",
-    measure_type = "mean_change",
+    measure_type = "between_arm_diff_mean_change",
     value        = 18.1,
     sd_or_se     = NA_real_,
     n            = 165,
     source       = "ZUMA-7 PRO publication",
-    notes        = "Between-arm difference in mean change from baseline (axi-cel vs SOC); 95% CI 12.3-23.9; P < 0.0001"
+    notes        = "Difference in mean change from baseline (axi-cel minus SOC); 95% CI 12.3 to 23.9"
   ),
-
   tibble(
     trial_id     = "ZUMA-7",
-    arm          = "axi_cel",
+    arm          = "car_t",
     instrument   = "EORTC QLQ-C30 physical functioning",
     timepoint    = "day 100",
-    measure_type = "mean_change",
+    measure_type = "between_arm_diff_mean_change",
     value        = 13.1,
     sd_or_se     = NA_real_,
     n            = 165,
     source       = "ZUMA-7 PRO publication",
-    notes        = "Between-arm difference in mean change from baseline (axi-cel vs SOC); 95% CI 8.0-18.2; P < 0.0001"
+    notes        = "Difference in mean change from baseline (axi-cel minus SOC); 95% CI 8.0 to 18.2"
   ),
-
   tibble(
     trial_id     = "ZUMA-7",
-    arm          = "axi_cel",
+    arm          = "car_t",
     instrument   = "EQ-5D-5L VAS",
     timepoint    = "day 100",
-    measure_type = "mean_change",
+    measure_type = "between_arm_diff_mean_change",
     value        = 13.7,
     sd_or_se     = NA_real_,
     n            = 165,
     source       = "ZUMA-7 PRO publication",
-    notes        = "Between-arm difference in mean change from baseline (axi-cel vs SOC); 95% CI 8.5-18.8; P < 0.0001"
+    notes        = "Difference in mean change from baseline (axi-cel minus SOC); 95% CI 8.5 to 18.8"
   ),
-
   tibble(
     trial_id     = "ZUMA-7",
-    arm          = "axi_cel",
-    instrument   = "EORTC QLQ-C30 global health status/QoL",
+    arm          = "car_t",
+    instrument   = "EORTC QLQ-C30 global health status",
     timepoint    = "day 150",
-    measure_type = "mean_change",
+    measure_type = "between_arm_diff_mean_change",
     value        = 9.8,
     sd_or_se     = NA_real_,
     n            = 165,
     source       = "ZUMA-7 PRO publication",
-    notes        = "Between-arm difference in mean change from baseline (axi-cel vs SOC); 95% CI 2.6-17.0; P = 0.0124"
+    notes        = "Difference in mean change from baseline (axi-cel minus SOC); 95% CI 2.6 to 17.0"
   ),
-
   tibble(
     trial_id     = "ZUMA-7",
-    arm          = "axi_cel",
+    arm          = "car_t",
     instrument   = "EQ-5D-5L VAS",
     timepoint    = "day 150",
-    measure_type = "mean_change",
+    measure_type = "between_arm_diff_mean_change",
     value        = 11.3,
     sd_or_se     = NA_real_,
     n            = 165,
     source       = "ZUMA-7 PRO publication",
-    notes        = "Between-arm difference in mean change from baseline (axi-cel vs SOC); 95% CI 5.4-17.1; P = 0.0004"
+    notes        = "Difference in mean change from baseline (axi-cel minus SOC); 95% CI 5.4 to 17.1"
   ),
-
   tibble(
     trial_id     = "ZUMA-7",
-    arm          = "axi_cel",
+    arm          = "car_t",
     instrument   = "EQ-5D-5L index",
     timepoint    = "day 100",
-    measure_type = "mean_change",
+    measure_type = "between_arm_diff_mean_change",
     value        = 0.081,
     sd_or_se     = NA_real_,
     n            = 165,
     source       = "ZUMA-7 PRO publication",
-    notes        = "Between-arm difference in mean change from baseline (axi-cel vs SOC); US value set; 95% CI 0.024-0.138; P = 0.0112"
+    notes        = "US value set; 95% CI 0.024 to 0.138"
   )
 )
 
-pro_data <- pro_data %>%
-  {
-    if ("trial_id" %in% names(.))
-      filter(., trial_id != "ZUMA-7")
-    else .
-  } %>%
-  bind_rows(zuma7_pro)
-
-write_csv(pro_data, "data/patient-reported-outcomes.csv")
+replace_trial("data/patient-reported-outcomes.csv", zuma7_pro, "trial_id", "ZUMA-7")
 
 
-# ============================================================
-# ZUMA-7 ADVERSE EVENTS
-# ============================================================
+# ------------------------------------------------------------------
+# adverse events (safety population)
+# ------------------------------------------------------------------
 
 zuma7_ae <- bind_rows(
   tibble(
     trial_id       = "ZUMA-7",
     arm            = "car_t",
-    treatment      = "Axi-cel",
+    treatment      = "Axicabtagene ciloleucel",
     outcome        = "crs_any",
     events         = 157,
     n_safety       = 170,
@@ -436,11 +393,10 @@ zuma7_ae <- bind_rows(
     source         = "Locke 2022 NEJM Supplement",
     notes          = "92%; no grade 5 CRS"
   ),
-
   tibble(
     trial_id       = "ZUMA-7",
     arm            = "car_t",
-    treatment      = "Axi-cel",
+    treatment      = "Axicabtagene ciloleucel",
     outcome        = "crs_g3plus",
     events         = 11,
     n_safety       = 170,
@@ -448,11 +404,10 @@ zuma7_ae <- bind_rows(
     source         = "Locke 2022 NEJM Supplement",
     notes          = "6%; no grade 5 CRS"
   ),
-
   tibble(
     trial_id       = "ZUMA-7",
     arm            = "car_t",
-    treatment      = "Axi-cel",
+    treatment      = "Axicabtagene ciloleucel",
     outcome        = "icans_any",
     events         = 102,
     n_safety       = 170,
@@ -460,11 +415,10 @@ zuma7_ae <- bind_rows(
     source         = "Locke 2022 NEJM Supplement",
     notes          = "60%; treatment-emergent neurologic events"
   ),
-
   tibble(
     trial_id       = "ZUMA-7",
     arm            = "car_t",
-    treatment      = "Axi-cel",
+    treatment      = "Axicabtagene ciloleucel",
     outcome        = "icans_g3plus",
     events         = 36,
     n_safety       = 170,
@@ -472,11 +426,10 @@ zuma7_ae <- bind_rows(
     source         = "Locke 2022 NEJM Supplement",
     notes          = "21%; treatment-emergent neurologic events"
   ),
-
   tibble(
     trial_id       = "ZUMA-7",
     arm            = "soc",
-    treatment      = "Standard care",
+    treatment      = "Standard of care",
     outcome        = "icans_any",
     events         = 33,
     n_safety       = 168,
@@ -484,11 +437,10 @@ zuma7_ae <- bind_rows(
     source         = "Locke 2022 NEJM Supplement",
     notes          = "20%; treatment-emergent neurologic events"
   ),
-
   tibble(
     trial_id       = "ZUMA-7",
     arm            = "soc",
-    treatment      = "Standard care",
+    treatment      = "Standard of care",
     outcome        = "icans_g3plus",
     events         = 1,
     n_safety       = 168,
@@ -496,11 +448,10 @@ zuma7_ae <- bind_rows(
     source         = "Locke 2022 NEJM Supplement",
     notes          = "1%; treatment-emergent neurologic events"
   ),
-
   tibble(
     trial_id       = "ZUMA-7",
     arm            = "car_t",
-    treatment      = "Axi-cel",
+    treatment      = "Axicabtagene ciloleucel",
     outcome        = "teae",
     events         = 170,
     n_safety       = 170,
@@ -508,11 +459,10 @@ zuma7_ae <- bind_rows(
     source         = "Locke 2022 NEJM Supplement",
     notes          = "100%"
   ),
-
   tibble(
     trial_id       = "ZUMA-7",
     arm            = "soc",
-    treatment      = "Standard care",
+    treatment      = "Standard of care",
     outcome        = "teae",
     events         = 168,
     n_safety       = 168,
@@ -522,12 +472,4 @@ zuma7_ae <- bind_rows(
   )
 )
 
-ae_data <- ae_data %>%
-  {
-    if ("trial_id" %in% names(.))
-      filter(., trial_id != "ZUMA-7")
-    else .
-  } %>%
-  bind_rows(zuma7_ae)
-
-write_csv(ae_data, "data/adverse-events.csv")
+replace_trial("data/adverse-events.csv", zuma7_ae, "trial_id", "ZUMA-7")

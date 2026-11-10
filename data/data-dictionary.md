@@ -1,127 +1,146 @@
-# Data Dictionary — CAR-T NMA in 2L+ LBCL
+# Data dictionary
 
-**Project:** network-meta-analysis-project-CART
-**Extractor:** Zoubayda Baoubbou
-**Date template created:** 2026-08-19
-**Protocol version:** 1.0
-**Dictionary version:** 1.1
+Project: network-meta-analysis-project-CART
+Extracted by: Zoubayda Baoubbou
+Protocol: `report/protocol.md`
+Dictionary version: 2.0
 
----
+The dictionary describes the five CSV files in `data/` that the analysis actually
+reads. If a column changes, this file changes with it.
 
-## 1. Source Publications
+## 1. Source publications
 
-| Trial | NCT ID | Citation | Year | Phase | PDF Location |
-|-------|--------|----------|------|-------|--------------|
-| ZUMA-7 | NCT03391466 | Locke FL et al., NEJM | 2022 | 3 | `pdfs/zuma7_locke_2022.pdf` |
-| TRANSFORM | NCT03575351 | Abramson JS et al., NEJM | 2022 | 3 | `pdfs/transform_abramson_2022.pdf` |
-| BELINDA | NCT03570892 | Sehn LH et al., NEJM | 2022 | 3 | `pdfs/belinda_sehn_2022.pdf` |
+| Trial | NCT | Primary source | Follow-up source |
+|---|---|---|---|
+| ZUMA-7 | NCT03391466 | Locke FL, et al. N Engl J Med 2022;386:640-654 | Westin JR, et al. N Engl J Med 2023;389:148-157 |
+| TRANSFORM | NCT03575351 | Abramson JS, et al. Blood 2023;141:1675-1684 | Kamdar M, et al. J Clin Oncol 2025;43:2671-2678 |
+| BELINDA | NCT03570892 | Bishop MR, et al. N Engl J Med 2022;386:629-639 | none available |
 
-> PDFs are stored locally in `pdfs/` and gitignored. Do not commit copyrighted material.
-> NCT IDs and phase verified against ClinicalTrials.gov (2026-08-19): ZUMA-7 (Kite), TRANSFORM (Celgene; JCAR017/liso-cel), BELINDA (Novartis).
+The TRANSFORM interim analysis (Kamdar M, et al. Lancet 2022;399:2294-2308) is not
+used for the primary analysis. It is the source of the earlier readout in
+sensitivity analysis 2.
 
----
+PDFs are kept locally and are not committed, to avoid putting copyrighted material in
+the repository.
 
-## 2. Extraction Rules (Pre-specified)
+## 2. Extraction rules
 
-| Rule | Specification |
-|------|---------------|
-| **Primary analysis set** | ITT (randomized set) for efficacy; safety set for toxicity |
-| **HR computation** | `seTE <- (log(hr_ci_hi) - log(hr_lo)) / (2 * qnorm(0.975))` |
-| **Binary effect measure** | Odds ratio (OR) |
-| **Outcome labels** | `CRR` (not CR), `ORR`, `EFS`, `OS`, `PFS` — matching protocol wording |
-| **PROs** | Descriptive summary only — no NMA pooling |
+| Rule | How it was applied |
+|---|---|
+| Efficacy population | Randomised (ITT) set, so `n` in `binary-data.csv` equals `n_randomized` |
+| Safety population | As-treated set (`n_safety`), which is smaller than the randomised set wherever not everyone was infused |
+| Time to event | Hazard ratio and 95% CI as reported; `seTE = (log(upper) - log(lower)) / (2 * qnorm(0.975))` |
+| Binary effect measure | Odds ratio |
+| Outcome labels | `crr`, `orr`, `efs`, `os`, `pfs`, `crs_any`, `crs_g3plus`, `icans_any`, `icans_g3plus`, `teae` / `teae_any` |
+| Response readout | Primary analysis of each trial, because response rates do not change with longer follow-up |
+| Survival readout | Longest available follow-up in a journal publication |
+| PROs | Descriptive summary only, no pooling |
 
----
+## 3. Files
 
-## 3. Cell-Level Traceability
+### 3.1 characteristics.csv
 
-### 3.1 nma_time2event.csv
+One row per trial arm, six rows in total.
 
-| trial_id | outcome | analysis_type | hr | hr_ci_lo | hr_ci_hi | population | efs_event_definition | source_pub | table_figure | page | notes |
-|----------|---------|---------------|-----|----------|----------|------------|----------------------|------------|--------------|------|-------|
-| zuma7 | EFS | ITT | | | | ITT | | Locke et al. 2022 | | | |
-| zuma7 | OS | ITT | | | | ITT | n/a | Locke et al. 2022 | | | |
-| zuma7 | OS | crossover-adjusted | | | | ITT | n/a | Locke et al. 2022 | | | only if reported (e.g., RPSFT); else leave blank + note |
-| zuma7 | PFS | ITT | | | | ITT | n/a | Locke et al. 2022 | | | |
-| transform | EFS | ITT | | | | ITT | | Abramson et al. 2022 | | | |
-| transform | OS | ITT | | | | ITT | n/a | Abramson et al. 2022 | | | |
-| transform | OS | crossover-adjusted | | | | ITT | n/a | Abramson et al. 2022 | | | 50/92 (54%) SOC→liso-cel crossover; adjusted HR if reported |
-| transform | PFS | ITT | | | | ITT | n/a | Abramson et al. 2022 | | | |
-| belinda | EFS | ITT | | | | ITT | | Sehn et al. 2022 | | | |
-| belinda | OS | ITT | | | | ITT | n/a | Sehn et al. 2022 | | | |
-| belinda | OS | crossover-adjusted | | | | ITT | n/a | Sehn et al. 2022 | | | only if reported; else leave blank + note |
-| belinda | PFS | ITT | | | | ITT | n/a | Sehn et al. 2022 | | | |
+| Column | Meaning |
+|---|---|
+| `trial_name`, `nct` | Trial label and registration |
+| `car_t_product`, `primary_citation`, `followup_citation` | Product and the papers it came from |
+| `data_cutoff_date`, `median_followup_months` | Cut-off and follow-up of the source publication |
+| `randomization_ratio`, `bridging_chemo_allowed`, `bridging_details` | Design |
+| `crossover_allowed` | Whether the protocol allowed crossover from the SOC arm |
+| `response_assessor` | Independent review committee or investigator |
+| `efs_definition_verbatim`, `crr_definition_verbatim` | Quoted from the paper, because the EFS definitions differ |
+| `crs_grading`, `icans_grading` | Grading system used in that trial |
+| `arm`, `treatment` | `car_t` or `soc` |
+| `n_randomized`, `n_safety`, `n_infused` | The three denominators, kept apart on purpose |
+| `median_age`, `pct_primary_refractory`, `pct_relapse_lt12mo`, `pct_ipi_distribution`, `pct_stage_iii_iv` | Baseline characteristics used in the transitivity assessment |
+| `region_note` | Where the trial enrolled |
+| `median_days_dx_to_infusion` | Not extracted, left empty |
+| `salvage_regimens`, `pct_reached_asct`, `pct_soc_subsequent_cart` | SOC-arm checks; only filled in for the SOC rows |
+| `source`, `notes` | Where each row came from and anything odd about it |
 
-> `efs_event_definition`: record each trial's verbatim event definition from the methods/protocol section. This documents the outcome-level transitivity threat (ZUMA-7 vs BELINDA definitions differ materially) at extraction time rather than reconstructing it at writing time.
+### 3.2 binary-data.csv
 
-### 3.2 nma_binary.csv
+Two arms per trial per outcome, twelve rows.
 
-| trial_id | outcome | events_int | n_int | events_ctrl | n_ctrl | analysis_set | source_pub | table_figure | page |
-|----------|---------|------------|-------|-------------|--------|--------------|------------|--------------|------|
-| zuma7 | CRR | | | | | randomized | Locke et al. 2022 | | |
-| zuma7 | ORR | | | | | randomized | Locke et al. 2022 | | |
-| transform | CRR | | | | | randomized | Abramson et al. 2022 | | |
-| transform | ORR | | | | | randomized | Abramson et al. 2022 | | |
-| belinda | CRR | | | | | randomized | Sehn et al. 2022 | | |
-| belinda | ORR | | | | | randomized | Sehn et al. 2022 | | |
-| zuma7 | TEAE | | | | | safety | Locke et al. 2022 | | |
-| zuma7 | SAE | | | | | safety | Locke et al. 2022 | | |
-| zuma7 | grade3plus_AE | | | | | safety | Locke et al. 2022 | | |
-| transform | TEAE | | | | | safety | Abramson et al. 2022 | | |
-| transform | SAE | | | | | safety | Abramson et al. 2022 | | |
-| transform | grade3plus_AE | | | | | safety | Abramson et al. 2022 | | |
-| belinda | TEAE | | | | | safety | Sehn et al. 2022 | | |
-| belinda | SAE | | | | | safety | Sehn et al. 2022 | | |
-| belinda | grade3plus_AE | | | | | safety | Sehn et al. 2022 | | |
+| Column | Meaning |
+|---|---|
+| `trial_id`, `arm`, `treatment` | Which trial and arm |
+| `outcome` | `crr` or `orr` |
+| `events`, `n` | Responders and the ITT denominator |
+| `denominator_type` | Always `randomized` here |
+| `assessor` | Response assessor |
+| `timepoint_note` | Which readout the numbers come from |
+| `source` | Table in the paper |
 
-> Safety league table is descriptive only, per protocol — no "safest CAR-T" ranking. CRS/ICANS-specific rows may be added for narrative description but will not enter the NMA.
+### 3.3 time-to-event-data.csv
 
-### 3.3 characteristics.csv
+One row per hazard ratio reported, including the ones only used in sensitivity
+analyses.
 
-| trial_id | intervention | control | phase | line_of_therapy | n_randomized | median_age | male_pct | ipi_high_pct | primary_refractory_pct | early_relapse_pct | region_mix | time_dx_to_infusion | prior_lines | bridging_allowed | crossover_pct | source_pub | table_figure | page |
-|----------|--------------|---------|-------|-----------------|--------------|------------|----------|--------------|------------------------|-------------------|-------------|--------------------|-------------|-----------------|---------------|------------|--------------|------|
-| zuma7 | axi-cel | SOC | 3 | 2L+ | | | | | | | | | | no | | Locke et al. 2022 | | |
-| transform | liso-cel | SOC | 3 | 2L+ | | | | | | | | | | yes | | Abramson et al. 2022 | | |
-| belinda | tisa-cel | SOC | 3 | 2L+ | | | | | | | | | | yes | | Sehn et al. 2022 | | |
+| Column | Meaning |
+|---|---|
+| `trial_id`, `outcome`, `population` | Trial, `efs`/`pfs`/`os`, and the analysis set |
+| `treatment_arm`, `comparator_arm` | `axi_cel` / `liso_cel` / `tisa_cel` against `soc` |
+| `hr`, `hr_lower`, `hr_upper` | Reported estimate |
+| `treatment_median_months`, `comparator_median_months` | Median survival where reported |
+| `publication_used` | `initial` or `follow-up` |
+| `source_type` | `reported` or `sensitivity_analysis` |
+| `data_cutoff_date`, `median_followup_months` | Feeds the data maturity table |
+| `estimand` | Empty or `itt` for the primary rows; `rpsft_adjusted` and `covariate_adjusted` mark the sensitivity rows |
+| `treatment_4yr_survival`, `comparator_4yr_survival` | Only filled in where the paper gives them |
+| `source` | Paper and, where needed, a note about the adjustment method |
 
-> Columns beyond `male_pct` exist to support the protocol's transitivity assessment (IPI distribution, primary refractory vs early relapse mix, geographic region, time from diagnosis to infusion, bridging policy, crossover). `bridging_allowed` pre-filled from trial design (ZUMA-7: not permitted; TRANSFORM: permitted); verify against methods section during extraction.
+### 3.4 adverse-events.csv
 
-### 3.4 pros.csv
+| Column | Meaning |
+|---|---|
+| `trial_id`, `arm`, `treatment` | Which trial and arm |
+| `outcome` | `crs_any`, `crs_g3plus`, `icans_any`, `icans_g3plus`, `teae` |
+| `events`, `n_safety` | Count and the as-treated denominator |
+| `grading_system` | Lee 2014, modified Lee 2014, CTCAE v4.03 or v5.0 |
+| `source`, `notes` | Paper, and flags for anything back-calculated |
 
-| trial_id | instrument | domain | timepoint | source_pub | table_figure | page |
-|----------|------------|--------|-----------|------------|--------------|------|
-| zuma7 | EORTC QLQ-C30 | Global health status | Baseline | Locke et al. 2022 | | |
-| zuma7 | EORTC QLQ-C30 | Global health status | Month 6 | Locke et al. 2022 | | |
+### 3.5 patient-reported-outcomes.csv
 
-> Rows for TRANSFORM (EQ-5D) and BELINDA to be added at extraction if reported. PROs are descriptive only; no pooling.
+| Column | Meaning |
+|---|---|
+| `trial_id`, `arm`, `instrument`, `timepoint` | What was measured and when |
+| `measure_type` | `between_arm_diff_mean_change`, `hazard_ratio`, `between_arm_diff_MMRM` |
+| `value`, `sd_or_se`, `n` | The number itself and its denominator |
+| `source`, `notes` | Paper and a plain-language note |
 
----
+The `value` column holds a between-arm difference, not an arm mean. That is written
+into `measure_type` and repeated in `notes`, because it would be easy to misread.
 
-## 4. Reconstructed Data Flags
+## 4. Derived and back-calculated values
 
-| trial_id | outcome | method | software | flag_in_dictionary | sensitivity_analysis |
-|----------|---------|--------|----------|--------------------|--------------------|
-| | | Tierney et al. (2007) / Parmar et al. (1998) | metaDigitise | YES | planned |
+| File | Row | What was done | Flag |
+|---|---|---|---|
+| adverse-events.csv | BELINDA, `teae_any`, both arms | Counts 160/162 and 158/160 were back-calculated from the reported 98.8% | Marked BACK-CALCULATED in `notes` |
 
-> Fill one row per reconstructed cell. Reconstructed cells are used in sensitivity analysis only; primary analysis uses reported estimates wherever available.
+Nothing in the time-to-event file was reconstructed from Kaplan-Meier curves. Every
+hazard ratio is as reported by the trial investigators.
 
----
+## 5. Known gaps
 
-## 5. Discrepancy Log (Step 17 — Blinded Verification)
+- **BELINDA PFS** was not reported, so BELINDA is absent from the PFS analysis. It
+  was left out rather than imputed.
+- **Serious adverse events and grade 3 or above adverse events** were in the
+  protocol's list of aggregate safety outcomes but were not extracted. The safety
+  analysis therefore covers CRS, ICANS and TEAEs only.
+- **Median time from diagnosis to infusion** was not extracted for any trial.
+- **BELINDA** had no long-term journal follow-up at the cut-off, so its data are much
+  less mature than the other two trials. This shows up in the data maturity table.
+- **TRANSFORM crossover**: 61 of 91 treated patients in the SOC arm crossed over by
+  the primary analysis (67%). The interim analysis reported 50 of 92 (54%), which is
+  where the 54% sometimes quoted comes from.
 
-**Procedure:** Pass 1 extraction → wait ≥7 days → Pass 2 blinded re-extraction → diff in R → resolve.
+## 6. Change log
 
-| trial_id | outcome | variable | pass1_value | pass2_value | discrepancy_type | resolution | date |
-|----------|---------|----------|-------------|-------------|-----------------|------------|------|
-| | | | | | | | |
-
-> **Discrepancy types:** transcription_error, interpretation_error, unit_error, rounding_error
-
----
-
-## 6. Change Log
-
-| Date | Change | Version |
-|------|--------|---------|
-| 2026-08-19 | Initial template | 1.0 |
-| 2026-08-19 | v1.1: corrected TRANSFORM phase to 3; added EFS rows and per-trial EFS event-definition column; completed ORR and safety-outcome rows for all trials; renamed CR→CRR; added transitivity columns to characteristics.csv; added crossover-adjusted OS analysis_type rows; added outcome-label rule | 1.1 |
+| Date | Change |
+|---|---|
+| 2026-08-19 | First version of the dictionary |
+| 2026-08-19 | Corrected TRANSFORM phase to 3, added EFS rows and the EFS definition column, completed ORR and safety rows for all three trials, renamed CR to CRR |
+| 2026-11-10 | Rewritten to match the five CSV files the scripts actually read; corrected the BELINDA and TRANSFORM citations; added the known gaps section |

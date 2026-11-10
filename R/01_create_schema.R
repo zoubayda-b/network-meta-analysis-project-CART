@@ -1,35 +1,40 @@
+# 01_create_schema.R
+# Makes the empty CSV files that the extraction scripts fill in.
+# Run this once before 02a/02b/02c. Files that already exist are left alone.
+
 library(tibble)
 library(readr)
 
-
 if (!dir.exists("data")) dir.create("data")
 
+write_if_missing <- function(x, path) {
+  if (file.exists(path)) {
+    message("already exists, skipping: ", path)
+  } else {
+    write_csv(x, path)
+  }
+}
 
-# characteristics.csv
-
-characteristics_file <- "data/characteristics.csv"
-
+# characteristics.csv - one row per trial arm
 characteristics <- tibble(
-  trial_name                 = character(),  # zuma7 / transform / belinda
-  nct                        = character(),  # NCT number
-  car_t_product              = character(),  # axi-cel / liso-cel / tisa-cel
-  primary_citation           = character(),  # e.g. "Locke 2022 NEJM"
-  followup_citation          = character(),  # long-term paper
+  trial_name                 = character(),  # ZUMA-7 / TRANSFORM / BELINDA
+  nct                        = character(),
+  car_t_product              = character(),
+  primary_citation           = character(),
+  followup_citation          = character(),  # long term paper, if there is one
   data_cutoff_date           = character(),
   median_followup_months     = numeric(),
   randomization_ratio        = character(),
-  bridging_chemo_allowed     = character(),  # yes / no
+  bridging_chemo_allowed     = character(),
   bridging_details           = character(),
-  crossover_allowed          = character(),  # yes / no
-  response_assessor          = character(),  # IRC / investigator
+  crossover_allowed          = character(),
+  response_assessor          = character(),  # IRC or investigator
   efs_definition_verbatim    = character(),
   crr_definition_verbatim    = character(),
-  crs_grading               = character(),
+  crs_grading                = character(),
   icans_grading              = character(),
-
-  # arm-level
   arm                        = character(),  # car_t / soc
-  treatment                  = character(),  # axi-cel / liso-cel / tisa-cel / soc
+  treatment                  = character(),
   n_randomized               = numeric(),
   n_safety                   = numeric(),
   n_infused                  = numeric(),
@@ -37,7 +42,7 @@ characteristics <- tibble(
   pct_primary_refractory     = numeric(),
   pct_relapse_lt12mo         = numeric(),
   pct_ipi_distribution       = character(),
-  pct_stage_iii_iv            = numeric(),
+  pct_stage_iii_iv           = numeric(),
   region_note                = character(),
   median_days_dx_to_infusion = numeric(),
   salvage_regimens           = character(),
@@ -47,17 +52,10 @@ characteristics <- tibble(
   notes                      = character()
 )
 
-if (!file.exists(characteristics_file)) {
-  write_csv(characteristics, characteristics_file)
-} else {
-  message("File already exists: ", characteristics_file)
-}
+write_if_missing(characteristics, "data/characteristics.csv")
 
 
-# binary-data.csv
-
-binary_file <- "data/binary-data.csv"
-
+# binary-data.csv - CRR and ORR counts
 binary <- tibble(
   trial_id         = character(),
   arm              = character(),
@@ -66,25 +64,18 @@ binary <- tibble(
   events           = numeric(),
   n                = numeric(),
   denominator_type = character(),  # randomized = ITT
-  assessor         = character(),  # IRC / investigator
-  timepoint_note   = character(),  # e.g. "best response"
+  assessor         = character(),
+  timepoint_note   = character(),
   source           = character()
 )
 
-if (!file.exists(binary_file)) {
-  write_csv(binary, binary_file)
-} else {
-  message("File already exists: ", binary_file)
-}
+write_if_missing(binary, "data/binary-data.csv")
 
 
-# time-to-event-data.csv
-
-tte_file <- "data/time-to-event-data.csv"
-
+# time-to-event-data.csv - one row per reported HR
 tte <- tibble(
   trial_id                 = character(),
-  outcome                  = character(),
+  outcome                  = character(),  # efs / pfs / os
   population               = character(),
   treatment_arm            = character(),
   comparator_arm           = character(),
@@ -93,33 +84,26 @@ tte <- tibble(
   hr_upper                 = numeric(),
   treatment_median_months  = numeric(),
   comparator_median_months = numeric(),
-  publication_used         = character(),
+  publication_used         = character(),  # initial / followup
   source_type              = character(),
   data_cutoff_date         = character(),
   median_followup_months   = numeric(),
-  estimand                 = character(),
+  estimand                 = character(),  # itt / rpsft_adjusted / covariate_adjusted
   treatment_4yr_survival   = numeric(),
   comparator_4yr_survival  = numeric(),
   source                   = character()
 )
 
-if (!file.exists(tte_file)) {
-  write_csv(tte, tte_file)
-} else {
-  message("File already exists: ", tte_file)
-}
+write_if_missing(tte, "data/time-to-event-data.csv")
 
 
 # patient-reported-outcomes.csv
-
-pro_file <- "data/patient-reported-outcomes.csv"
-
 pro <- tibble(
   trial_id     = character(),
   arm          = character(),
   instrument   = character(),  # EORTC QLQ-C30 / EQ-5D-5L
-  timepoint    = character(),  # e.g. "day 100", "month 6"
-  measure_type = character(),  # mean_change / responder_pct
+  timepoint    = character(),
+  measure_type = character(),  # mean_change / responder_pct / ...
   value        = numeric(),
   sd_or_se     = numeric(),
   n            = numeric(),
@@ -127,21 +111,15 @@ pro <- tibble(
   notes        = character()
 )
 
-if (!file.exists(pro_file)) {
-  write_csv(pro, pro_file)
-} else {
-  message("File already exists: ", pro_file)
-}
+write_if_missing(pro, "data/patient-reported-outcomes.csv")
 
-# adverse-events.csv
 
-ae_file <- "data/adverse-events.csv"
-
+# adverse-events.csv - denominators are the safety set, not the randomized set
 ae <- tibble(
   trial_id       = character(),
   arm            = character(),
   treatment      = character(),
-  outcome        = character(),  # crs_any / crs_g3plus / icans_any / etc.
+  outcome        = character(),  # crs_any / crs_g3plus / icans_any / icans_g3plus / teae
   events         = numeric(),
   n_safety       = numeric(),
   grading_system = character(),
@@ -149,8 +127,4 @@ ae <- tibble(
   notes          = character()
 )
 
-if (!file.exists(ae_file)) {
-  write_csv(ae, ae_file)
-} else {
-  message("File already exists: ", ae_file)
-}
+write_if_missing(ae, "data/adverse-events.csv")
