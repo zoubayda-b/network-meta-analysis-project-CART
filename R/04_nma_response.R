@@ -41,12 +41,14 @@ run_binary_nma <- function(outcome_label, tau_assumed = NULL) {
 
   # pairwise() is only used here to turn the arm level data into the
   # contrast format netmeta wants. It is not doing any pooling.
-  pw <- pairwise(treat   = treat,
-                 event   = events,
-                 n       = n,
-                 studlab = trial_id,
-                 data    = dat,
-                 sm      = "OR")
+  pw <- pairwise(treat      = treat,
+                 event      = events,
+                 n          = n,
+                 studlab    = trial_id,
+                 data       = dat,
+                 sm         = "OR",
+                 incr       = 0.5,
+                 allstudies = TRUE)
 
   args <- list(TE = pw$TE, seTE = pw$seTE, treat1 = pw$treat1,
                treat2 = pw$treat2, studlab = pw$studlab,

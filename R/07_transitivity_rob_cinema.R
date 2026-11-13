@@ -114,8 +114,10 @@ rob2 <- tribble(
   "BELINDA",   "OS",     "Low", "Some concerns", "Low", "Low", "Low", "Some concerns"
 )
 
-# domain 2 is where the crossover lands: TRANSFORM 67% and BELINDA 50.6% crossed
-# over by protocol, and 57% of ZUMA-7's SOC arm got commercial CAR-T afterwards.
+# domain 2 is where the crossover lands: 66% of TRANSFORM's SOC arm were approved
+# to cross over (57% had received liso-cel by the 3-year update), 50.6% of
+# BELINDA's SOC arm crossed over, and 57% of ZUMA-7's SOC arm got commercial
+# CAR-T afterwards.
 # domain 4 is low everywhere: response is read by a blinded review committee and
 # death is death.
 

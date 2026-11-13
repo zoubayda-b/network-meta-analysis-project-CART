@@ -114,6 +114,15 @@ n_per_cell <- tte_primary %>% count(trial_id, outcome) %>% filter(n != 1)
 check(nrow(n_per_cell) == 0,
       "tte: exactly one primary row per trial and outcome")
 
+# ...and that no cell is missing altogether: BELINDA has no PFS, everything else
+# should be present.
+expected_primary <- c("ZUMA-7|os", "ZUMA-7|efs", "ZUMA-7|pfs",
+                      "TRANSFORM|os", "TRANSFORM|efs", "TRANSFORM|pfs",
+                      "BELINDA|os", "BELINDA|efs")
+check(setequal(unique(paste(tte_primary$trial_id, tte_primary$outcome, sep = "|")),
+               expected_primary),
+      "tte: primary rows cover every expected trial and outcome")
+
 note("BELINDA PFS was not reported, so BELINDA is left out of the PFS network.")
 note("BELINDA OS: the primary row is the unadjusted HR 1.24 (0.83-1.85). The
      covariate adjusted 0.99 is kept for the sensitivity analysis only.")

@@ -33,9 +33,13 @@ fell, not evidence that one product is better.
 ## Key secondary: ORR (sensitivity analysis 1)
 
 axi-cel 4.94 (3.03 to 8.07); liso-cel 6.96 (3.35 to 14.47); tisa-cel 1.17 (0.75 to
-1.81). Same direction as CRR, and the P-score order is the same, so the response
-result does not depend on which response definition is used. This is the one
-sensitivity analysis that came out as expected.
+1.81). Both response outcomes point the same way, and tisa-cel is again the only
+product whose interval includes 1. The P-score order is **not** the same, though:
+liso-cel moves ahead of axi-cel for ORR (0.926 versus 0.741; for CRR it is axi-cel
+0.851 versus liso-cel 0.816). The axi-cel versus liso-cel interval is wide and
+includes 1 under both definitions, so this is a change in where the point estimates
+fell, not evidence that either product is better. This is the one sensitivity
+analysis that came out as expected in direction, with a caveat on ranking.
 
 ## Key secondary: OS (intention to treat, most mature follow-up)
 
@@ -48,11 +52,19 @@ sensitivity analysis that came out as expected.
 P-scores: axi-cel 0.838, liso-cel 0.759, SOC 0.329, tisa-cel 0.073.
 
 OS is the weakest of the three main analyses. The standard-care arms were not
-comparable in what happened after randomisation (67% of TRANSFORM's crossed over,
-50.6% of BELINDA's, and 57% of ZUMA-7's later got commercial CAR-T), and the
-follow-up runs from 10 months in BELINDA to 47 months in ZUMA-7. The liso-cel
-interval includes 1. Read this table with the crossover-adjusted one below, not on
-its own.
+comparable in what happened after randomisation. In TRANSFORM, 61 of 92 (66%)
+standard-care patients were approved for crossover and 57 (62%) had received
+liso-cel by the 3-year update, against 63% in the primary analysis. BELINDA reports
+subsequent tisa-cel in 50.6% of its standard-care arm, and 57% of ZUMA-7's
+standard-care arm later received commercial CAR-T after progression, outside the
+trial. Median follow-up for the OS analysis runs from about 10 months in BELINDA to
+47 months in ZUMA-7. The liso-cel interval includes 1. Read this table with the
+crossover-adjusted one below, not on its own.
+
+A 2026 TRANSFORM long-term follow-up brief report was published after the data
+cut-off. It reports 48-month OS of 61.5% and PFS of 52.2% in the selected
+long-term-follow-up subset and no new hazard ratio, so it does not replace the
+3-year analysis used here. It is noted in the protocol's timing section.
 
 ## Exploratory: EFS and PFS
 
@@ -69,8 +81,8 @@ than impute.
 | Analysis | What changed |
 |---|---|
 | SA2, earliest readout instead of most mature | OS barely moves: ZUMA-7 stays at 0.73, TRANSFORM goes from 0.757 to 0.724. EFS moves slightly: axi-cel 0.42 to 0.40, liso-cel 0.375 to 0.356. |
-| SA3, crossover-adjusted OS | The CAR-T effect gets stronger: axi-cel 0.58 (0.42 to 0.81), liso-cel 0.335 (0.19 to 0.59). BELINDA's 0.99 (0.64 to 1.52) is a covariate-adjusted estimate, not a crossover adjustment, so it is not the same thing and should not be read as if it were. |
-| SA4, assumed tau (0.3 log OR, 0.2 log HR) | Point estimates do not move at all. The intervals widen, as they should: axi-cel CRR goes from 2.50 to 6.00 up to 1.86 to 8.07. No conclusion changes. |
+| SA3, crossover-adjusted OS | The CAR-T effect gets stronger: axi-cel 0.58 (0.42 to 0.81) by RPSFT, liso-cel 0.335 (0.19 to 0.59) by RPSFT. BELINDA's 0.99 (0.64 to 1.52) is a covariate-adjusted estimate, not a crossover adjustment, so it answers a different question and the three rows are not directly comparable. |
+| SA4, assumed tau (0.3 log OR, 0.2 log HR) | Point estimates do not move. The intervals widen, as they should. CRR conclusions are unchanged: axi-cel goes from 2.50 to 6.00 up to 1.86 to 8.07 and stays significant. OS is less robust: axi-cel goes from 0.73 (0.54 to 0.98) to 0.73 (0.45 to 1.19), so its interval now includes 1. The OS signal should not be called robust to a moderate assumed tau. |
 
 ## Comparator node check
 
@@ -80,7 +92,7 @@ treatment, their raw results would be close to each other.
 | SOC arm | CRR | ORR | median OS (months) | reached ASCT | later CAR-T |
 |---|---|---|---|---|---|
 | ZUMA-7 | 32.4% | 50.3% | 31.1 | 36% | 57% (commercial, after progression) |
-| TRANSFORM | 43.5% | 48.9% | 29.9 | 47% | 67% (protocol crossover) |
+| TRANSFORM | 43.5% | 48.9% | 29.9 | 47% | 66% approved; 57 received liso-cel |
 | BELINDA | 27.5% | 42.5% | not reached | 32.5% | 50.6% (protocol crossover) |
 
 They are not the same. BELINDA's SOC arm did clearly worse on response than
@@ -95,6 +107,12 @@ That only really happens for ZUMA-7's neurologic events:
 
 - ICANS any grade: OR 6.14 (3.76 to 10.01) versus SOC
 - ICANS grade 3 or above: OR 44.9 (6.07 to 331.5) versus SOC
+
+These are not a like-for-like ICANS contrast. The ZUMA-7 standard-care arm reports
+treatment-emergent neurologic events rather than ICANS, so the odds ratio compares
+ICANS in the CAR-T arm with a broader neurologic-event category in the control arm.
+The direction is still informative; the magnitude should not be read as an ICANS
+risk ratio.
 
 The TEAE odds ratios are not worth much. TEAEs are around 100% on every arm, and in
 ZUMA-7 both arms are at 100%, so the odds ratio is not estimable at all.

@@ -49,6 +49,13 @@ sets <- list(
 
 stopifnot(all(vapply(sets, nrow, integer(1)) > 0))
 
+# sensitivity 3 must contribute exactly one adjusted row per trial. Two rows for
+# the same trial would silently enter the network as separate studies.
+sens3_per_trial <- sets$sens3_os_adj %>%
+  count(trial_id) %>%
+  pull(n)
+stopifnot(all(sens3_per_trial == 1))
+
 
 # ------------------------------------------------------------------
 # the analysis itself

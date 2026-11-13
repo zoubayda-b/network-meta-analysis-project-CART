@@ -165,12 +165,20 @@ longer follow-up, so the numbers come from the trial's primary analysis; a later
 paper reporting the same response rates is not a new data point.
 
 This rule has a consequence that should be stated: the trials contribute data at
-very different maturity. ZUMA-7 has follow-up beyond four years, TRANSFORM has three,
-BELINDA has ten months. A hazard ratio is an average over the period observed, so
-hazard ratios measured over different windows are not perfectly comparable. A data
-maturity table (trial by outcome by cut-off date by median follow-up) is produced
-and shown next to every time-to-event table for this reason. Proportional hazards
-are checked by eye from the published curves rather than formally.
+very different maturity. Median follow-up is 47.2 months in ZUMA-7, 33.9 months in
+TRANSFORM and 10 months in BELINDA. A hazard ratio is an average over the period
+observed, so hazard ratios measured over different windows are not perfectly
+comparable. A data maturity table (trial by outcome by cut-off date by median
+follow-up) is produced and shown next to every time-to-event table for this reason.
+Proportional hazards are checked by eye from the published curves rather than
+formally.
+
+A 2026 TRANSFORM long-term follow-up brief report [@kamdar2026ltfu] was published
+after the declared cut-off. It reports 48-month OS of 61.5% and PFS of 52.2% in the
+selected long-term follow-up subset (43 liso-cel-arm patients and 24 crossover
+patients) and does not report a new hazard ratio. It therefore does not replace the
+3-year analysis used here, but it is noted so that the cut-off rule is not mistaken
+for the absence of later data.
 
 ## Eligibility criteria
 
@@ -207,11 +215,11 @@ are checked by eye from the published curves rather than formally.
 ### Databases
 
 PubMed and ClinicalTrials.gov, from inception to the declared cut-off date (the day
-the search is run, recorded in the report). CENTRAL will be added if institutional
-access becomes available. ClinicalTrials.gov is used both to find trials and to
-cross-check the registrations of the included publications. WHO ICTRP or the EU CTR
-will be used as an extra free registry check if time allows. Reference lists of the
-included studies and of relevant reviews are screened by hand.
+the search is run; the documentation gap is described below). CENTRAL will be added
+if institutional access becomes available. ClinicalTrials.gov is used both to find
+trials and to cross-check the registrations of the included publications. WHO ICTRP
+or the EU CTR will be used as an extra free registry check if time allows. Reference
+lists of the included studies and of relevant reviews are screened by hand.
 
 It is worth saying in advance that the eligible universe here is tiny and more or
 less known: three phase III trials plus their follow-up publications and their
@@ -228,8 +236,10 @@ are wrong somewhere and need another look before going further.
 - Design: randomised, randomised controlled trial, phase III, phase 3, clinical
   trial.
 
-The draft PubMed string is below. The version that is actually run, with its
-execution date, will be added to this protocol before the search is executed.
+The draft PubMed string is below. The final executed string and its execution date
+were not saved to the repository at the time of the search, so the exact date cannot
+be reconstructed from the files. This is recorded as a documentation limitation
+rather than filled in retrospectively.
 
 ```
 ("large B-cell lymphoma"[tiab] OR "large B cell lymphoma"[tiab] OR "diffuse large B-cell lymphoma"[tiab] OR DLBCL[tiab] OR LBCL[tiab] OR "Lymphoma, Large B-Cell, Diffuse"[Mesh])
@@ -389,8 +399,12 @@ Characteristics compared:
 - Age, prior lines, stage.
 - **IPI distribution.** IPI is a plausible effect modifier in DLBCL, so a different
   mix across trials threatens transitivity directly.
-- **Region.** BELINDA enrolled heavily in Asia and Australia, unlike the other two.
-  Regional differences in salvage practice and supportive care matter.
+- **Region.** The trials differ in where they enrolled. BELINDA was the most
+  international of the three: 65 centres in 18 countries and only 29.6% of patients
+  from the US, with sites in Asia and Australia. ZUMA-7 was predominantly North
+  American (78%) and European (19%), with sites in Australia and Israel. TRANSFORM
+  was multinational (US, Europe and Japan). Regional differences in salvage practice
+  and supportive care matter.
 - **Primary refractory versus early relapse.** These groups have different
   prognoses, so an imbalance across trials biases the indirect comparison.
 - **Time from diagnosis to infusion**, which says something about how realistic the
@@ -427,10 +441,12 @@ Named design differences that go in the transitivity table:
 - 25.9% of BELINDA's CAR-T arm had progressed by week 6, against 13.8% in its own
   control arm. This is often cited as a mechanical reason the trial read null rather
   than as evidence that the drug does not work.
-- Crossover differs a lot: 67% of TRANSFORM's standard-care arm crossed over to
-  liso-cel by the primary analysis (50/92, 54%, at the interim), 50.6% of BELINDA's
-  crossed over, and 57% of ZUMA-7's standard-care arm later received commercial
-  CAR-T.
+- Crossover differs a lot. In TRANSFORM, 61 of 92 (66%) standard-care patients were
+  approved for crossover and 57 (62%) had received liso-cel by the 3-year update; the
+  primary analysis reported 63%, and the interim analysis 50/92 (54%). In BELINDA,
+  50.6% of the standard-care arm received subsequent tisa-cel. ZUMA-7 did not allow
+  protocol crossover, but 57% of its standard-care arm later received commercial
+  CAR-T after progression.
 
 ### Consistency
 
@@ -463,8 +479,11 @@ to:
    the two Lugano response outcomes.
 2. **Follow-up duration.** Where a trial has more than one publication, the most
    mature follow-up is the primary analysis and the earlier readout is re-run as a
-   sensitivity analysis. For TRANSFORM this means the interim analysis
-   [@kamdar2022] against the primary analysis [@abramson2023].
+   sensitivity analysis. For ZUMA-7 this means the primary analysis [@locke2022]
+   against the updated follow-up [@westin2023]. For TRANSFORM it means the primary
+   analysis [@abramson2023] against the 3-year follow-up [@kamdar2025]. The earlier
+   TRANSFORM interim report [@kamdar2022] is superseded by the primary analysis and is
+   not used as the earliest readout.
 3. **Crossover-adjusted OS.** The OS analysis is repeated with the crossover-adjusted
    hazard ratios reported by the investigators. These estimates use different
    methods in different trials, so they are not in the primary analysis.
@@ -503,8 +522,11 @@ Confidence intervals are judged against those numbers.
 ## Reporting
 
 The report follows the PRISMA extension for network meta-analyses (PRISMA-NMA;
-Hutton et al., Ann Intern Med 2015), with the completed checklist as a supplement and
-a PRISMA 2020 flow diagram for identification and selection.
+Hutton et al., Ann Intern Med 2015). Two documentation gaps remain: the completed
+PRISMA-NMA checklist is not included in the repository, and the PRISMA 2020 flow
+diagram is an incompletely populated template rather than a final diagram. Both are
+reported as limitations; the screening counts in the template could not be verified
+from the files in the project.
 
 ## Reproducibility
 
